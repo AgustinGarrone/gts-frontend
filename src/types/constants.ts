@@ -1,3 +1,5 @@
+import { Pokemon } from "./models";
+
 export const typeColors: { [key: string]: string } = {
   normal: "#A8A77A",
   fighting: "#C22E28",
@@ -20,3 +22,27 @@ export const typeColors: { [key: string]: string } = {
   stellar: "#FFAC7D",
   unknown: "#6B6B6B",
 };
+
+export const emptyPokemons: Pokemon[] = [
+  {
+    name: "",
+    id: 0,
+    ownerId: 0,
+    image: "",
+    level: 0,
+  },
+  {
+    name: "",
+    id: 0,
+    ownerId: 0,
+    image: "",
+    level: 0,
+  },
+  {
+    name: "",
+    id: 0,
+    ownerId: 0,
+    image: "",
+    level: 0,
+  },
+];

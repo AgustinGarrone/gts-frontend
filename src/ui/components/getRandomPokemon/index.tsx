@@ -32,7 +32,6 @@ export const RandomPokemonSelector: FC<props> = ({ username }) => {
       height="100vh"
       justifyContent="center"
       alignItems="center"
-      zIndex="1000"
     >
       <Flex
         bg="rgba(255, 255, 255, 0.1)"

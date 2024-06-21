@@ -30,7 +30,7 @@ export interface Pokemon {
   name: string;
   image: string;
   level: number;
-  abilities: Ability[];
-  types: Type[];
+  abilities?: Ability[];
+  types?: Type[];
   ownerId: number;
 }
