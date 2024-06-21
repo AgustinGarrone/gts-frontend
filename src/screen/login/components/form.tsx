@@ -38,7 +38,6 @@ export const LoginForm: FC<LoginFormProps> = ({ changeMode }) => {
 
       await loginMutation.mutateAsync(formData, {
         onSuccess: (data) => {
-          console.log(data)
           localStorage.setItem("accessToken", data.user.token);
           window.location.href = "/";
         },
