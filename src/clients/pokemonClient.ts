@@ -18,19 +18,9 @@ class PokemonClient extends RESTClient {
 
   async addRandomPokemon(): Promise<ApiResponse<Pokemon>> {
     const response = await this.axios.post(`pokemon/random`);
-    console.log(response);
     return {
       data: response.data.data,
       statusCode: response.status,
-      message: response.statusText,
-    };
-  }
-
-  async register(data: RegisterMutationData): Promise<AuthResponses> {
-    const response = await this.axios.post("auth/register", data);
-    return {
-      user: response.data,
-      status: response.status,
       message: response.statusText,
     };
   }

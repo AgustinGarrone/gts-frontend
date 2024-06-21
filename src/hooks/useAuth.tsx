@@ -40,9 +40,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const getUserInfo = (): DecodeTokenData | null => {
     const token = localStorage.getItem("accessToken");
-    console.log(token)
     if (token) {
-      console.log('TAMO ACA')
       const decodedToken = jwtDecode(token) as DecodeTokenData;
       const data: DecodeTokenData = {
         username: decodedToken.username || "",
@@ -50,7 +48,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         iat: decodedToken.iat!,
         exp: decodedToken.exp!,
       };
-      console.log('TERMINAMO ACAA')
       return data;
     }
     return null;
