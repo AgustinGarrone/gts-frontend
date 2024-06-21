@@ -33,6 +33,7 @@ const useRegisterMutation = () => {
     }
   );
 };
+
 export const useAuthClient = () => {
   const loginMutation = useLoginMutation();
   const registerMutation = useRegisterMutation();

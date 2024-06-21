@@ -23,8 +23,7 @@ type RegisterFormProps = {
 
 export const RegisterForm: FC<RegisterFormProps> = ({ changeMode }) => {
   const { registerMutation } = useAuthClient();
-  const [name, setName] = useState("");
-  const [lastname, setLastname] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -33,7 +32,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeMode }) => {
     event.preventDefault();
 
     try {
-      const formData = { name, lastname, email, password };
+      const formData = { username, email, password };
       registerSchema.parse(formData);
       setError(null);
 
@@ -80,20 +79,12 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeMode }) => {
         </Alert>
       )}
       <form style={{ textAlign: "center" }} onSubmit={handleSubmit}>
-        <FormControl id="name" mt={4}>
-          <FormLabel>Nombre</FormLabel>
+        <FormControl id="username" mt={4}>
+          <FormLabel>Nombre de usuario</FormLabel>
           <Input
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </FormControl>
-        <FormControl id="lastname" mt={4}>
-          <FormLabel>Apellido</FormLabel>
-          <Input
-            type="text"
-            value={lastname}
-            onChange={(e) => setLastname(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </FormControl>
         <FormControl id="email" mt={4}>

@@ -30,7 +30,7 @@ export const LoginForm: FC<LoginFormProps> = ({ changeMode }) => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
+    playSound()
     try {
       const formData = { email, password };
       loginSchema.parse(formData);
@@ -38,6 +38,7 @@ export const LoginForm: FC<LoginFormProps> = ({ changeMode }) => {
 
       await loginMutation.mutateAsync(formData, {
         onSuccess: (data) => {
+          console.log(data)
           localStorage.setItem("accessToken", data.user.token);
           window.location.href = "/";
         },
@@ -103,7 +104,6 @@ export const LoginForm: FC<LoginFormProps> = ({ changeMode }) => {
           />
         </FormControl>
         <Button
-          onClick={() => playSound()}
           type="submit"
           mt={6}
           colorScheme="blue"
