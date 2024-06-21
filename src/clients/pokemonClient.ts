@@ -1,12 +1,14 @@
 "use client";
+import { ApiResponse } from "@/types/responses";
 import {
   AuthResponses,
   LoginMutationData,
   RegisterMutationData,
 } from "../types/auth";
 import RESTClient from "./RESTClient";
+import { Pokemon } from "@/types/models";
 
-class AuthClient extends RESTClient {
+class PokemonClient extends RESTClient {
   private allowedDomain: string | undefined;
 
   constructor() {
@@ -14,11 +16,12 @@ class AuthClient extends RESTClient {
     this.allowedDomain = "http://localhost:4000/";
   }
 
-  async login(data: LoginMutationData): Promise<AuthResponses> {
-    const response = await this.axios.post(`auth/login`, data);
+  async addRandomPokemon(): Promise<ApiResponse<Pokemon>> {
+    const response = await this.axios.post(`pokemon/random`);
+    console.log(response);
     return {
-      user: response.data.data,
-      status: response.status,
+      data: response.data.data,
+      statusCode: response.status,
       message: response.statusText,
     };
   }
@@ -33,6 +36,6 @@ class AuthClient extends RESTClient {
   }
 }
 
-const authClient = new AuthClient();
+const pokemonClient = new PokemonClient();
 
-export default authClient;
+export default pokemonClient;

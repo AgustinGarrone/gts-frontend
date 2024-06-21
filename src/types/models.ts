@@ -14,3 +14,23 @@ export default interface IJwt {
   expires_in: number;
   token_type: string;
 }
+
+export interface Type {
+  id: number;
+  name: string;
+}
+
+export interface Ability {
+  id: number;
+  name: string;
+}
+
+export interface Pokemon {
+  id: number;
+  name: string;
+  image: string;
+  level: number;
+  abilities: Ability[];
+  types: Type[];
+  ownerId: number;
+}

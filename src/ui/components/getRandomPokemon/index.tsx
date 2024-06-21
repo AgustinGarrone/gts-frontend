@@ -1,10 +1,10 @@
 "use client";
 import { Button, Flex, Text } from "@chakra-ui/react";
 import Image from "next/image";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import ash from "../../../../public/ash.png";
 import { TypeAnimation } from "react-type-animation";
-import { playSound } from "@/helpers/fx";
+import { playSound, playTypeWriting } from "@/helpers/fx";
 import { Selector } from "./selector";
 
 type props = {
@@ -18,6 +18,10 @@ export const RandomPokemonSelector: FC<props> = ({ username }) => {
     playSound();
     setConfirmation(true);
   };
+
+  useEffect(() => {
+    playTypeWriting()
+  } , [])
 
   return (
     <Flex
