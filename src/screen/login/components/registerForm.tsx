@@ -59,10 +59,16 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeMode }) => {
 
   return (
     <Flex
+      w="30%"
+      h="50em"
       direction="column"
-      mt="8em"
       alignItems="center"
       justifyContent="center"
+      bg="rgba(255, 255, 255, 0.1)"
+      backdropFilter="blur(2px)"
+      border="1px solid rgba(255, 255, 255, 0.18)"
+      borderRadius="16px"
+      boxShadow="0 4px 30px rgba(0, 0, 0, 0.1)"
     >
       <Text fontSize="2rem" fontWeight="bold">
         ¡Regístrate!
@@ -111,13 +117,13 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeMode }) => {
           Registrarse
         </Button>
       </form>
-      <Flex>
+      <Flex mt={8} direction="column" alignItems="center" justifyContent="center">
         <Text mt={4}>
           ¿Ya tienes una cuenta?{" "}
-          <Link onClick={() => changeMode(FormMode.LOGIN)} color="blue">
+        </Text>
+        <Link onClick={() => changeMode(FormMode.LOGIN)} color="blue">
             Iniciar sesión
           </Link>
-        </Text>
       </Flex>
     </Flex>
   );

@@ -11,16 +11,12 @@ import {
   AlertIcon,
   Link,
 } from "@chakra-ui/react";
-import {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useState,
-} from "react";
+import { Dispatch, FC, SetStateAction, useState } from "react";
 import { FormMode } from "..";
 import { z } from "zod";
 import { loginSchema } from "./form.schemas";
 import { errorAlert } from "@/helpers/alerts";
+import { playSound } from "@/helpers/fx";
 
 type LoginFormProps = {
   changeMode: Dispatch<SetStateAction<FormMode>>;
@@ -43,7 +39,7 @@ export const LoginForm: FC<LoginFormProps> = ({ changeMode }) => {
       await loginMutation.mutateAsync(formData, {
         onSuccess: (data) => {
           localStorage.setItem("accessToken", data.user.token);
-          window.location.href = "/"
+          window.location.href = "/";
         },
         onError: (error) => {
           console.error("Error al iniciar sesión:", error);
@@ -63,19 +59,18 @@ export const LoginForm: FC<LoginFormProps> = ({ changeMode }) => {
   return (
     <Flex
       w="30%"
-      h="30em"
+      h="50em"
       direction="column"
       alignItems="center"
       justifyContent="center"
       bg="rgba(255, 255, 255, 0.1)"
-      backdropFilter="blur(10px)"
+      backdropFilter="blur(2px)"
       border="1px solid rgba(255, 255, 255, 0.18)"
       borderRadius="16px"
       boxShadow="0 4px 30px rgba(0, 0, 0, 0.1)"
-
     >
       <Text fontSize="2rem" fontWeight="bold">
-        Bienvenido, Haciendola!
+        GTS Pokémon
       </Text>
       {error && (
         <Alert status="error" mb={4} borderRadius="md">
@@ -107,21 +102,30 @@ export const LoginForm: FC<LoginFormProps> = ({ changeMode }) => {
             _hover={{ borderColor: "blue.500" }}
           />
         </FormControl>
-        <Button type="submit" mt={6} colorScheme="blue" borderRadius="md">
+        <Button
+          onClick={() => playSound()}
+          type="submit"
+          mt={6}
+          colorScheme="blue"
+          borderRadius="md"
+        >
           Iniciar sesión
         </Button>
       </form>
-      <Flex w="100%" justifyContent="center">
-        <Text mt={2}>
-          ¿No tienes una cuenta?{" "}
-          <Link
-            onClick={() => changeMode(FormMode.REGISTER)}
-            color="blue"
-            cursor="pointer"
-          >
-            Crear cuenta
-          </Link>
-        </Text>
+      <Flex
+        mt={8}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Text mt={2}>¿No tienes una cuenta? </Text>
+        <Link
+          onClick={() => changeMode(FormMode.REGISTER)}
+          color="blue"
+          cursor="pointer"
+        >
+          Crear cuenta
+        </Link>
       </Flex>
     </Flex>
   );

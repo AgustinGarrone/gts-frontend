@@ -11,12 +11,13 @@ type Props = {
 export const Layout: React.FC<Props> = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const { isAuthenticated } = useAuth();
+  //const { isAuthenticated } = useAuth();
+  const isAuthenticated = true
   const [authState, setAuthState] = useState(false);
 
   useEffect(() => {
     const checkAuthAndRedirect = async () => {
-      if (isAuthenticated()) {
+      if (isAuthenticated) {
         setAuthState(true);
         if (pathname === "/login") {
           router.push("/");

@@ -1,7 +1,7 @@
 "use client";
 import { Flex, Text } from "@chakra-ui/react";
 import { FC, useState } from "react";
-import bgImage from "../../../public/login_back4.jpg";
+import bgImage from "../../../public/login_back5.jpg";
 import { LoginForm } from "./components/form";
 import { RegisterForm } from "./components/registerForm";
 

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Press_Start_2P } from "next/font/google";
-import "./globals.css";
 import { Providers } from "./providers";
 
 const pressStartFont = Press_Start_2P({
