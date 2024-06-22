@@ -1,6 +1,5 @@
-import { LoginPage } from "@/screen/login"
+import { LoginPage } from "@/screen/login";
 
-
-export default function Login() {
-  return <LoginPage></LoginPage>
-}
+export default function Page() {
+    return <LoginPage/>;
+  }
