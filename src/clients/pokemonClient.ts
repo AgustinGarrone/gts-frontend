@@ -20,6 +20,15 @@ class PokemonClient extends RESTClient {
     };
   }
 
+  async getUserPokemons(userId: number): Promise<ApiResponse<Pokemon[]>> {
+    const response = await this.axios.get(`pokemon/${userId}`);
+    return {
+      data: response.data.data,
+      statusCode: response.status,
+      message: response.statusText,
+    };
+  }
+
   async addPokemons(pokemonIds: number[]): Promise<ApiResponse<Pokemon[]>> {
     const response = await this.axios.post(`pokemon`, { pokemonIds });
     return {

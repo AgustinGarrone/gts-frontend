@@ -1,5 +1,6 @@
 import { Flex } from "@chakra-ui/react"
 import { Notifications } from "./notifications"
+import { Pokedex } from "./pokedex"
 
 
 
@@ -19,6 +20,7 @@ export const HomeRight = () => {
         marginLeft="3em"
         boxShadow="0 4px 30px rgba(0, 0, 0, 0.1)"
       >
+        <Pokedex/>
         <Notifications/>
         </Flex>
     )

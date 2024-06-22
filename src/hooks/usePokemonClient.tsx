@@ -1,7 +1,7 @@
 import pokemonClient from "@/clients/pokemonClient";
 import { Pokemon } from "@/types/models";
 import { ApiResponse } from "@/types/responses";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 export const useGetRandomPokemon = () => {
   return useMutation<ApiResponse<Pokemon>, Error , {}>(
@@ -20,3 +20,10 @@ export const useAddPokemons = () => {
     }
   )
 }
+
+export const useGetUserPokemons = (userId: number) => {
+  return useQuery(["getUserPokemons", userId], async () => { 
+    const response = await pokemonClient.getUserPokemons(userId); 
+    return response.data; 
+  });
+};
