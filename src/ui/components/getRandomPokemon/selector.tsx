@@ -2,22 +2,25 @@ import { Button, Flex, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import egg from "../../../../public/pokemonEgg.png";
 import { useEffect, useState } from "react";
-import { usePokemonClient } from "@/hooks/usePokemonClient";
+import { useAddPokemons, useGetRandomPokemon } from "@/hooks/usePokemonClient";
 import { Pokemon } from "@/types/models";
 import { errorAlert } from "@/helpers/alerts";
-import { playSuccess } from "@/helpers/fx";
+import { playSound, playSuccess } from "@/helpers/fx";
 import { PokemonCard } from "../pokemonCard";
 import { emptyPokemons } from "@/types/constants";
 import { motion } from "framer-motion";
+import { useAuthClient } from "@/hooks/useAuthClient";
 
 export const Selector = () => {
   const [pokemonsSelected, setPokemonsSelected] = useState<boolean>(false);
   const [pokemonsAdded, setPokemonsAdded] = useState<Pokemon[]>(emptyPokemons);
-  const { addRandomMutation } = usePokemonClient();
+  const addPokemonMutation = useAddPokemons();
+  const getRandomMutation = useGetRandomPokemon();
+  const { setInitialMutation } = useAuthClient();
 
   const addRandom = async (index: number) => {
     try {
-      await addRandomMutation.mutateAsync(
+      await getRandomMutation.mutateAsync(
         {},
         {
           onSuccess: (data) => {
@@ -32,6 +35,31 @@ export const Selector = () => {
       );
     } catch (error) {
       console.error("Error al añadir pokemon:", error);
+    }
+  };
+
+  const handleContinueButton = async () => {
+    try {
+      playSound();
+      await setInitialMutation.mutateAsync(undefined, {
+        onError: (error) => {
+          errorAlert(error.message);
+          throw new Error();
+        },
+      });
+
+      const pokemonsIds = pokemonsAdded.map((pokemon) => pokemon.id);
+
+      await addPokemonMutation.mutateAsync(pokemonsIds, {
+        onSuccess: (data) => {},
+        onError: (error) => {
+          console.error("Error al agregar pokemons:", error);
+          errorAlert(error.message);
+          throw new Error();
+        },
+      });
+    } catch (error) {
+      console.log("Error al agregar pokemones random:", error);
     }
   };
 
@@ -86,7 +114,12 @@ export const Selector = () => {
           )
         )}
       </Flex>
-      <Button isDisabled={!pokemonsSelected}>Ingresar</Button>
+      <Button
+        isDisabled={!pokemonsSelected}
+        onClick={() => handleContinueButton()}
+      >
+        Ingresar
+      </Button>
     </Flex>
   );
 };

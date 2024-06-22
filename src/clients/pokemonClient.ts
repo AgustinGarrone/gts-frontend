@@ -16,8 +16,17 @@ class PokemonClient extends RESTClient {
     this.allowedDomain = "http://localhost:4000/";
   }
 
-  async addRandomPokemon(): Promise<ApiResponse<Pokemon>> {
+  async getRandomPokemon(): Promise<ApiResponse<Pokemon>> {
     const response = await this.axios.post(`pokemon/random`);
+    return {
+      data: response.data.data,
+      statusCode: response.status,
+      message: response.statusText,
+    };
+  }
+
+  async addPokemons(pokemonsId: number[]): Promise<ApiResponse<Pokemon[]>> {
+    const response = await this.axios.post(`pokemon`, { pokemonsId });
     return {
       data: response.data.data,
       statusCode: response.status,

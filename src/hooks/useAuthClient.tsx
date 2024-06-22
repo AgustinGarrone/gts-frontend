@@ -34,12 +34,23 @@ const useRegisterMutation = () => {
   );
 };
 
+const useSetInitialMutation = () => {
+  return useMutation<boolean , Error> (
+    async () => {
+      const response = await AuthClient.setInitialPokemonsTrue()
+      return response
+    }
+  )
+}
+
 export const useAuthClient = () => {
   const loginMutation = useLoginMutation();
   const registerMutation = useRegisterMutation();
+  const setInitialMutation = useSetInitialMutation()
 
   return {
     loginMutation,
     registerMutation,
+    setInitialMutation
   };
 };

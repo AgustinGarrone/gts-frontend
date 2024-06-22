@@ -9,6 +9,7 @@ interface AuthProviderProps {
 
 const defaultAuthContext = {
   isAuthenticated: () => false,
+  userHasInitialPokemons: () => false,
   getToken: () => "",
   getUserInfo: () => null as JwtPayload | null,
   logout: () => {},
@@ -30,6 +31,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     return false;
   };
 
+  const userHasInitialPokemons = () => {
+    const token = localStorage.getItem("accessToken")
+    if (token) {
+      const decodedToken = jwtDecode(token) as DecodeTokenData
+      if (decodedToken.initialPokemons) {
+        return true
+      }
+      return false
+    }
+    return false
+  }
+
   const getToken = () => {
     const token = localStorage.getItem("accessToken");
     if (token) {
@@ -44,6 +57,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const decodedToken = jwtDecode(token) as DecodeTokenData;
       const data: DecodeTokenData = {
         username: decodedToken.username || "",
+        initialPokemons: decodedToken.initialPokemons,
         id: decodedToken.id!,
         iat: decodedToken.iat!,
         exp: decodedToken.exp!,
@@ -60,6 +74,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const authContextValue = {
     isAuthenticated,
+    userHasInitialPokemons,
     getToken,
     getUserInfo,
     logout,

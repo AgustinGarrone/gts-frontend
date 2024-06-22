@@ -33,7 +33,7 @@ export const PokemonCard: FC<CardProps> = ({
       borderColor="gray.200"
       //bgGradient="linear(to-b, #e6f7ff, #b3ecff)"
       position="relative"
-      bg={cardBackgroundColor}
+      bgGradient={cardBackgroundColor}
       p={4}
     >
       <Text fontSize="xl" fontWeight="bold" mb={2}>
@@ -44,9 +44,19 @@ export const PokemonCard: FC<CardProps> = ({
         <Text>
           <strong>Habilidades:</strong>
         </Text>
+        {
+          abilities.map((a) => {
+            return <Text key={a.id}>{a.name}</Text>
+          })
+        }
         <Text>
           <strong>Tipos:</strong>
         </Text>
+        {
+          types.map((t) => {
+            return <Text key={t.id}>{t.name}</Text>
+          })
+        }
         <Flex h="3em" w="20%" borderRadius="20px" bgColor="red" top="-5" position="absolute">
           <Text>Nivel:</Text>
         </Flex>

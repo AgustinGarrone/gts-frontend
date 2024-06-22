@@ -31,6 +31,11 @@ class AuthClient extends RESTClient {
       message: response.statusText,
     };
   }
+
+  async setInitialPokemonsTrue(): Promise<boolean> {
+    const response = await this.axios.post("auth/setInitial");
+    return response.data;
+  }
 }
 
 const authClient = new AuthClient();

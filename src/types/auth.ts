@@ -15,6 +15,7 @@ export type RegisterMutationData = {
 export type DecodeTokenData = {
   username: string;
   id: number;
+  initialPokemons: boolean;
   iat: number;
   exp: number;
 };

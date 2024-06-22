@@ -3,20 +3,20 @@ import { Pokemon } from "@/types/models";
 import { ApiResponse } from "@/types/responses";
 import { useMutation } from "react-query";
 
-const useAddRandomPokemon = () => {
+export const useGetRandomPokemon = () => {
   return useMutation<ApiResponse<Pokemon>, Error , {}>(
     async () => {
-      const response = await pokemonClient.addRandomPokemon();
+      const response = await pokemonClient.getRandomPokemon();
       return response;
     }
   );
 };
 
-export const usePokemonClient = () => {
-
-    const addRandomMutation = useAddRandomPokemon()
-
-    return {
-      addRandomMutation
+export const useAddPokemons = () => {
+  return useMutation<ApiResponse<Pokemon[]> , Error , number[]>(
+    async (pokemonsId: number[]) => {
+      const response = await pokemonClient.addPokemons(pokemonsId)
+      return response
     }
+  )
 }
