@@ -14,8 +14,8 @@ export const useGetRandomPokemon = () => {
 
 export const useAddPokemons = () => {
   return useMutation<ApiResponse<Pokemon[]> , Error , number[]>(
-    async (pokemonsId: number[]) => {
-      const response = await pokemonClient.addPokemons(pokemonsId)
+    async (pokemonsIds: number[]) => {
+      const response = await pokemonClient.addPokemons(pokemonsIds)
       return response
     }
   )

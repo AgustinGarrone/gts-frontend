@@ -10,6 +10,7 @@ import { PokemonCard } from "../pokemonCard";
 import { emptyPokemons } from "@/types/constants";
 import { motion } from "framer-motion";
 import { useAuthClient } from "@/hooks/useAuthClient";
+import { useRouter } from "next/navigation";
 
 export const Selector = () => {
   const [pokemonsSelected, setPokemonsSelected] = useState<boolean>(false);
@@ -17,6 +18,7 @@ export const Selector = () => {
   const addPokemonMutation = useAddPokemons();
   const getRandomMutation = useGetRandomPokemon();
   const { setInitialMutation } = useAuthClient();
+  const router = useRouter()
 
   const addRandom = async (index: number) => {
     try {
@@ -49,7 +51,6 @@ export const Selector = () => {
       });
 
       const pokemonsIds = pokemonsAdded.map((pokemon) => pokemon.id);
-
       await addPokemonMutation.mutateAsync(pokemonsIds, {
         onSuccess: (data) => {},
         onError: (error) => {
@@ -58,6 +59,7 @@ export const Selector = () => {
           throw new Error();
         },
       });
+      router.push('/')
     } catch (error) {
       console.log("Error al agregar pokemones random:", error);
     }

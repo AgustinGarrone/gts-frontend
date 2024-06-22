@@ -1,10 +1,5 @@
 "use client";
 import { ApiResponse } from "@/types/responses";
-import {
-  AuthResponses,
-  LoginMutationData,
-  RegisterMutationData,
-} from "../types/auth";
 import RESTClient from "./RESTClient";
 import { Pokemon } from "@/types/models";
 
@@ -25,8 +20,8 @@ class PokemonClient extends RESTClient {
     };
   }
 
-  async addPokemons(pokemonsId: number[]): Promise<ApiResponse<Pokemon[]>> {
-    const response = await this.axios.post(`pokemon`, { pokemonsId });
+  async addPokemons(pokemonIds: number[]): Promise<ApiResponse<Pokemon[]>> {
+    const response = await this.axios.post(`pokemon`, { pokemonIds });
     return {
       data: response.data.data,
       statusCode: response.status,
