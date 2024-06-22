@@ -43,7 +43,7 @@ export const LoginForm: FC<LoginFormProps> = ({ changeMode }) => {
         },
         onError: (error) => {
           console.error("Error al iniciar sesión:", error);
-          errorAlert(`error al registrar`);
+          errorAlert(`error al iniciar sesión`);
           throw new Error(error.message);
         },
       });

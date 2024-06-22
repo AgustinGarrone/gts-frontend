@@ -26,7 +26,7 @@ class AuthClient extends RESTClient {
   async register(data: RegisterMutationData): Promise<AuthResponses> {
     const response = await this.axios.post("auth/register", data);
     return {
-      user: response.data,
+      user: response.data.data,
       status: response.status,
       message: response.statusText,
     };

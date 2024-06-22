@@ -26,10 +26,6 @@ const useRegisterMutation = () => {
       onSuccess: (data) => {
         localStorage.setItem("accessToken", data.user.token);
       },
-      onError: (error) => {
-        console.error("Error al iniciar sesión:", error);
-        throw new Error(error.message);
-      },
     }
   );
 };

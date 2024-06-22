@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "../hooks/useAuth";
 import { Metadata } from "next";
 import { Press_Start_2P } from "next/font/google";
+import { MusicPlayerButton } from "@/ui/components/musicPlayer";
 
 type Props = {
   children: JSX.Element;
@@ -46,5 +47,5 @@ export const Layout: React.FC<Props> = ({ children }) => {
     checkAuthAndRedirect();
   }, [isAuthenticated, router]);
 
-  return <div>{children}</div>;
+  return <><MusicPlayerButton/> <div>{children}</div> </>;
 };
