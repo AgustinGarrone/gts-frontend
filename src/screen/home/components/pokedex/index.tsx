@@ -6,6 +6,9 @@ import { Pokemon } from "@/types/models";
 import { PokemonCard } from "@/ui/components/pokemonCard";
 import { Flex, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+// @ts-ignore
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import "@splidejs/react-splide/css";
 
 export const Pokedex = () => {
   const { getUserInfo } = useAuth();
@@ -23,18 +26,27 @@ export const Pokedex = () => {
   return (
     <Flex w="80%" h="70%" wrap="wrap">
       <Text>Tus pokémons</Text>
-      {userPokemons && userPokemons.map((pokemon) => {
-        return (
-          <PokemonCard
-            name={pokemon.name}
-            image={pokemon.image}
-            abilities={pokemon.abilities!}
-            id={pokemon.id}
-            key={pokemon.id}
-            types={pokemon.types!}
-          />
-        );
-      })}
+      <Splide
+        options={{
+          perPage: 4,
+          width: "100%",
+        }}
+      >
+        {userPokemons &&
+          userPokemons.map((pokemon) => {
+            return (
+              <SplideSlide key={pokemon.id}>
+                <PokemonCard
+                  name={pokemon.name}
+                  image={pokemon.image}
+                  abilities={pokemon.abilities!}
+                  id={pokemon.id}
+                  types={pokemon.types!}
+                />
+              </SplideSlide>
+            );
+          })}
+      </Splide>
     </Flex>
   );
 };
