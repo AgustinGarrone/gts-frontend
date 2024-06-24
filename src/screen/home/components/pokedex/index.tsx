@@ -15,13 +15,15 @@ export const Pokedex = () => {
   const [userPokemons, setUserPokemons] = useState<Pokemon[] | undefined>([]);
   const userInfo = getUserInfo() as DecodeTokenData | null;
   const { data, isLoading, error, isRefetching } = useGetUserPokemons(
-    userInfo!.id
+    userInfo?.id
   );
 
   useEffect(() => {
-    setUserPokemons(data);
+    if (userInfo) {
+        setUserPokemons(data);
     console.log(data);
-  }, [data, isLoading, isRefetching]);
+    }
+  }, [data, isLoading, isRefetching , userInfo]);
 
   return (
     <Flex w="80%" h="70%" wrap="wrap">
