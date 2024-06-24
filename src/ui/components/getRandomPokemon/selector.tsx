@@ -52,7 +52,9 @@ export const Selector = () => {
 
       const pokemonsIds = pokemonsAdded.map((pokemon) => pokemon.id);
       await addPokemonMutation.mutateAsync(pokemonsIds, {
-        onSuccess: (data) => {},
+        onSuccess: (data) => {
+          localStorage.setItem("initialPokemons" , "true" )
+        },
         onError: (error) => {
           console.error("Error al agregar pokemons:", error);
           errorAlert(error.message);

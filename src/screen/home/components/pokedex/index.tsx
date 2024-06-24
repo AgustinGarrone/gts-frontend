@@ -22,7 +22,6 @@ export const Pokedex = () => {
   useEffect(() => {
     if (userInfo) {
         setUserPokemons(data);
-    console.log(data);
     }
   }, [data, isLoading, isRefetching , userInfo]);
 
@@ -33,7 +32,6 @@ export const Pokedex = () => {
         options={{
           perPage: 3,
           width: "100%",
-          gap:"3em",
         }}
       >
         {userPokemons &&

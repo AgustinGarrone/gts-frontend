@@ -45,8 +45,8 @@ export const PokemonCard: FC<CardProps> = ({
 
   return (
     <Flex
-      h="23em"
-      w="15em"
+      h="15em"
+      w="12em"
       borderRadius="md"
       borderWidth="2px"
       direction="column"

@@ -24,23 +24,16 @@ export const metadata: Metadata = {
 export const Layout: React.FC<Props> = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const { isAuthenticated, userHasInitialPokemons } = useAuth();
-  const [authState, setAuthState] = useState(false);
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const checkAuthAndRedirect = async () => {
       if (isAuthenticated()) {
-        setAuthState(true);
-        console.log(userHasInitialPokemons());
-        if (!userHasInitialPokemons()) {
-          router.push("/getInitial");
-        }
         if (pathname === "/login") {
           router.push("/");
         }
       } else {
         router.push("/login");
-        setAuthState(false);
       }
     };
 

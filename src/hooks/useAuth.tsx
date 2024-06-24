@@ -32,13 +32,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const userHasInitialPokemons = () => {
-    const token = localStorage.getItem("accessToken")
-    if (token) {
-      const decodedToken = jwtDecode(token) as DecodeTokenData
-      if (decodedToken.initialPokemons) {
-        return true
-      }
-      return false
+    const initialPokemons = localStorage.getItem("initialPokemons")
+    if (initialPokemons === "true") {
+      return true
     }
     return false
   }
@@ -68,8 +64,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = () => {
+    localStorage.removeItem("initialPokemons");
     localStorage.removeItem("accessToken");
-    router.push('/login')
+    router.push('/login');
   };
 
   const authContextValue = {

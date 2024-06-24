@@ -3,6 +3,7 @@ export interface User {
   name: string;
   lastname: string;
   email: string;
+  initialPokemons: boolean;
 }
 
 export interface UserWithToken extends User {
@@ -33,4 +34,30 @@ export interface Pokemon {
   abilities?: Ability[];
   types?: Type[];
   ownerId: number;
+}
+
+export enum TradeState {
+  PENDING = "PENDING",
+  PROPOSED = "PROPOSED",
+  COMPLETED = "COMPLETED",
+}
+
+export enum TradeResponse {
+  REJECT = "REJECT",
+  CONFIRM = "CONFIRM",
+}
+
+export interface Trade {
+  id: number;
+  user1id: number;
+  user2id: number;
+  pokemon1id: number;
+  pokemon2id: number;
+  state: TradeState;
+}
+
+export interface Notification {
+  id: number;
+  userId: number;
+  message: string;
 }

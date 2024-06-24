@@ -4,21 +4,17 @@ import trainerPicture from "../../../../public/pokeball.png";
 import Image from "next/image";
 import pokedex from "../../../../public/pokedex_icon.png";
 import { playSound } from "@/helpers/fx";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { DecodeTokenData } from "@/types/auth";
 
 export const Navbar = () => {
 
-  const {getUserInfo} = useAuth()
+  const {getUserInfo , logout} = useAuth()
   const userInfo = getUserInfo() as DecodeTokenData | null;
-  
-  const router = useRouter()
 
   const handleLogout = () => {
     playSound()
-    localStorage.removeItem("accessToken")
-    router.push('/login')
+    logout()
   }
 
   return (

@@ -30,7 +30,7 @@ export const LoginForm: FC<LoginFormProps> = ({ changeMode }) => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    playSound()
+    playSound();
     try {
       const formData = { email, password };
       loginSchema.parse(formData);
@@ -39,7 +39,15 @@ export const LoginForm: FC<LoginFormProps> = ({ changeMode }) => {
       await loginMutation.mutateAsync(formData, {
         onSuccess: (data) => {
           localStorage.setItem("accessToken", data.user.token);
-          window.location.href = "/";
+          localStorage.setItem(
+            "initialPokemons",
+            data.user.initialPokemons ? "true" : "false"
+          );
+          if (!data.user.initialPokemons) {
+            window.location.href = "/getInitial";
+          } else if (data.user.initialPokemons) {
+            window.location.href = "/";
+          }
         },
         onError: (error) => {
           console.error("Error al iniciar sesión:", error);
@@ -102,12 +110,7 @@ export const LoginForm: FC<LoginFormProps> = ({ changeMode }) => {
             _hover={{ borderColor: "blue.500" }}
           />
         </FormControl>
-        <Button
-          type="submit"
-          mt={6}
-          colorScheme="blue"
-          borderRadius="md"
-        >
+        <Button type="submit" mt={6} colorScheme="blue" borderRadius="md">
           Iniciar sesión
         </Button>
       </form>

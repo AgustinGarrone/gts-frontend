@@ -39,12 +39,12 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeMode }) => {
       await registerMutation.mutateAsync(formData, {
         onSuccess: (data) => {
           localStorage.setItem("accessToken", data.user.token);
-          window.location.href = "/"
+          localStorage.setItem("initialPokemons" , data.user.initialPokemons ? "true" : "false")
+          window.location.href = "/getInitial"
         },
         onError: (error) => {
           console.error("Error al registrar usuario:", error);
           errorAlert(`error al registrar`)
-          //throw new Error(error);
         },
       });
     } catch (error) {
