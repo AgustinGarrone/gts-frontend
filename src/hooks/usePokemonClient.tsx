@@ -21,6 +21,15 @@ export const useAddPokemons = () => {
   )
 }
 
+export const useDeletePokemon = () => {
+  return useMutation<ApiResponse<boolean> , Error , number>(
+    async (pokemonId: number) => {
+      const response = await pokemonClient.deletePokemon(pokemonId)
+      return response
+    }
+  )
+}
+
 export const useGetUserPokemons = (userId: number) => {
   return useQuery(["getUserPokemons", userId], async () => { 
     const response = await pokemonClient.getUserPokemons(userId); 

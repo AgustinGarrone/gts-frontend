@@ -37,6 +37,15 @@ class PokemonClient extends RESTClient {
       message: response.statusText,
     };
   }
+
+  async deletePokemon(pokemonId: number): Promise<ApiResponse<boolean>> {
+    const response = await this.axios.delete(`pokemon/${pokemonId}`);
+    return {
+      data: response.data.data,
+      statusCode: response.status,
+      message: response.statusText,
+    };
+  }
 }
 
 const pokemonClient = new PokemonClient();
