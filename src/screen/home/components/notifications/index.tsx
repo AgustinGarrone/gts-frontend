@@ -23,23 +23,13 @@ export const Notifications = () => {
   return (
     <Flex
       w="100%"
-      h="25%"
-      borderRadius="15px"
-      bg="rgba(255, 255, 255, 0.1)"
-      backdropFilter="blur(2px)"
-      boxShadow="0 4px 30px rgba(0, 0, 0, 0.1)"
-      border="1px solid rgba(255, 255, 255, 0.18)"
-      alignItems="center"
+      marginTop={{
+        base: 0,
+        "2xl": "1em",
+      }}
+      h="100%"
+      direction="column"
     >
-      <Flex
-        bgGradient="linear(to-b, #e6f7ff, #b3ecff)"
-        h="100%"
-        alignItems="center"
-        justifyContent="flex-start"
-      >
-        <IoNotificationsCircle color="black" size="40px" />
-      </Flex>
-
       <Flex cursor="pointer">
         {isLoading ? (
           <Text mt="1em">Cargando...</Text>
@@ -63,8 +53,7 @@ export const Notifications = () => {
                   userId={notification.userId}
                 />
               </SplideSlide>
-            ))}{" "}
-            *
+            ))}
           </Splide>
         ) : (
           <Text mt="1em">No hay notificaciones disponibles.</Text>

@@ -45,8 +45,14 @@ export const PokemonCard: FC<CardProps> = ({
 
   return (
     <Flex
-      h="19em"
-      w="12em"
+      height={{
+        xl:"19em",
+        "2xl":"25em",
+      }}
+      width={{
+        xl:"12em",
+        "2xl":"16em"
+      }}
       borderRadius="md"
       borderWidth="2px"
       direction="column"
@@ -55,6 +61,7 @@ export const PokemonCard: FC<CardProps> = ({
       zIndex="100"
       alignItems="start"
       justifyContent="center"
+      position="relative"
     >
       <Flex alignItems="center" w="100%" justifyContent="space-around">
         <span style={{ marginLeft: "1em" }}>{level}</span>
@@ -63,7 +70,12 @@ export const PokemonCard: FC<CardProps> = ({
        }
       </Flex>
       <Flex
-        h="16em"
+        height={{
+          xl:"16em",
+          "2xl":"22em"
+        }}
+        position="absolute"
+        bottom="0"
         borderTop="2px solid white"
         w="100%"
         direction="column"
@@ -96,9 +108,6 @@ export const PokemonCard: FC<CardProps> = ({
           />
         </Flex>
         <Stack mt="1em" spacing={1} align="center">
-          {/* <Text fontSize="small">
-          <strong>Habilidades:</strong>
-        </Text> */}
           {abilities.map((a) => {
             return (
               <Text fontSize="x-small" key={a.id}>
@@ -106,17 +115,6 @@ export const PokemonCard: FC<CardProps> = ({
               </Text>
             );
           })}
-          {/*  <Text>
-          <strong>Tipos:</strong>
-        </Text>
-        {
-          types.map((t) => {
-            return <Text key={t.id}>{t.name}</Text>
-          })
-        }
-        <Flex h="3em" w="20%" borderRadius="20px" bgColor="red" top="-5" position="absolute">
-          <Text>Nivel:</Text>
-        </Flex> */}
         </Stack>
       </Flex>
     </Flex>

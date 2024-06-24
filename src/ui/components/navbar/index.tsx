@@ -6,10 +6,35 @@ import pokedex from "../../../../public/pokedex_icon.png";
 import { playSound } from "@/helpers/fx";
 import { useAuth } from "@/hooks/useAuth";
 import { DecodeTokenData } from "@/types/auth";
+import { useEffect, useState } from "react";
+import { usePathname , useRouter} from "next/navigation";
+
+enum Routes {
+  TRADES = 'TRADES',
+  PERFIL = 'PERFIL'
+}
 
 export const Navbar = () => {
   const { getUserInfo, logout } = useAuth();
+  const router = useRouter()
   const userInfo = getUserInfo() as DecodeTokenData | null;
+  const currentPath = usePathname();
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    setIsActive(currentPath === "/");
+  }, [currentPath]);
+
+
+  const handleNavigation = (page: Routes) => {
+    if (page === Routes.PERFIL) {
+      playSound()
+      router.push('/')
+    } else if (page === Routes.TRADES) {
+      playSound()
+      router.push('/trades')
+    }
+  }
 
   const handleLogout = () => {
     playSound();
@@ -58,6 +83,8 @@ export const Navbar = () => {
           backgroundColor="HighlightText"
           cursor="pointer"
           width="70%"
+          isActive={isActive}
+          onClick={() => handleNavigation(Routes.PERFIL)}
         >
           <Image
             src={pokedex}
@@ -72,6 +99,7 @@ export const Navbar = () => {
           backgroundColor="HighlightText"
           cursor="pointer"
           width="70%"
+          onClick={() => handleNavigation(Routes.TRADES)}
         >
           Trades
         </Button>

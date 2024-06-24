@@ -34,7 +34,7 @@ export const Pokedex = () => {
       cursor="pointer"
       direction="column"
     >
-      <Text m="1em 0 0 3em">Tus pokémons</Text>
+ 
       <Splide
         options={{
           perPage: 3,
