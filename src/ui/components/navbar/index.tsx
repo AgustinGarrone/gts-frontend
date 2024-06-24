@@ -7,34 +7,44 @@ import { playSound } from "@/helpers/fx";
 import { useAuth } from "@/hooks/useAuth";
 import { DecodeTokenData } from "@/types/auth";
 import { useEffect, useState } from "react";
-import { usePathname , useRouter} from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 enum Routes {
-  TRADES = 'TRADES',
-  PERFIL = 'PERFIL'
+  TRADES = "TRADES",
+  PERFIL = "PERFIL",
 }
 
 export const Navbar = () => {
   const { getUserInfo, logout } = useAuth();
-  const router = useRouter()
+  const router = useRouter();
   const userInfo = getUserInfo() as DecodeTokenData | null;
   const currentPath = usePathname();
-  const [isActive, setIsActive] = useState(false);
+  const [activePath, setActivePath] = useState(Routes.PERFIL);
 
   useEffect(() => {
-    setIsActive(currentPath === "/");
+    if (currentPath === "/") {
+      setActivePath(Routes.PERFIL);
+    } else if (currentPath === "/trades") {
+      setActivePath(Routes.TRADES);
+    }
   }, [currentPath]);
-
 
   const handleNavigation = (page: Routes) => {
     if (page === Routes.PERFIL) {
-      playSound()
-      router.push('/')
+      playSound();
+      router.push("/");
     } else if (page === Routes.TRADES) {
-      playSound()
-      router.push('/trades')
+      playSound();
+      router.push("/trades");
     }
-  }
+  };
+
+  const checkActiveButton = (buttonRoute: Routes) => {
+    if (activePath === buttonRoute) {
+      return true;
+    }
+    return false;
+  };
 
   const handleLogout = () => {
     playSound();
@@ -83,7 +93,7 @@ export const Navbar = () => {
           backgroundColor="HighlightText"
           cursor="pointer"
           width="70%"
-          isActive={isActive}
+          isActive={checkActiveButton(Routes.PERFIL)}
           onClick={() => handleNavigation(Routes.PERFIL)}
         >
           <Image
@@ -100,6 +110,7 @@ export const Navbar = () => {
           cursor="pointer"
           width="70%"
           onClick={() => handleNavigation(Routes.TRADES)}
+          isActive={checkActiveButton(Routes.TRADES)}
         >
           Trades
         </Button>
