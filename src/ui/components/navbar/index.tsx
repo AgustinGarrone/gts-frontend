@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Button, Flex, Img, Text } from "@chakra-ui/react";
 import trainerPicture from "../../../../public/pokeball.png";
 import Image from "next/image";
@@ -8,14 +8,13 @@ import { useAuth } from "@/hooks/useAuth";
 import { DecodeTokenData } from "@/types/auth";
 
 export const Navbar = () => {
-
-  const {getUserInfo , logout} = useAuth()
+  const { getUserInfo, logout } = useAuth();
   const userInfo = getUserInfo() as DecodeTokenData | null;
 
   const handleLogout = () => {
-    playSound()
-    logout()
-  }
+    playSound();
+    logout();
+  };
 
   return (
     <Flex
@@ -28,8 +27,6 @@ export const Navbar = () => {
       justifyContent="flex-start"
       backdropFilter="blur(2px)"
       border="1px solid rgba(255, 255, 255, 0.18)"
-      borderBottomLeftRadius="50px"
-      borderBottomRightRadius="50px"
       boxShadow="0 4px 30px rgba(0, 0, 0, 0.1)"
     >
       <Flex
@@ -50,6 +47,7 @@ export const Navbar = () => {
       </Flex>
       <Flex
         direction="column"
+        w="100%"
         mt="4em"
         gap={"1em"}
         alignItems="center"
@@ -58,8 +56,8 @@ export const Navbar = () => {
         <Button
           color="deepskyblue"
           backgroundColor="HighlightText"
-          width="20em"
           cursor="pointer"
+          width="70%"
         >
           <Image
             src={pokedex}
@@ -72,23 +70,24 @@ export const Navbar = () => {
         <Button
           color="deepskyblue"
           backgroundColor="HighlightText"
-          width="20em"
           cursor="pointer"
+          width="70%"
         >
           Trades
         </Button>
       </Flex>
       <Button
-          color="deepskyblue"
-          backgroundColor="ThreeDDarkShadow"
-          width="20em"
-          cursor="pointer"
-          position="absolute"
-          bottom="100"
-          onClick={() => handleLogout()}
-        >
-          Cerrar sesión
-        </Button>
+        color="deepskyblue"
+        backgroundColor="ThreeDDarkShadow"
+        width="70%"
+        cursor="pointer"
+        position="absolute"
+        bottom="100"
+        fontSize="small"
+        onClick={() => handleLogout()}
+      >
+        Cerrar sesión
+      </Button>
     </Flex>
   );
 };

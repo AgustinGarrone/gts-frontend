@@ -21,34 +21,46 @@ export const Pokedex = () => {
 
   useEffect(() => {
     if (userInfo) {
-        setUserPokemons(data);
+      setUserPokemons(data);
     }
-  }, [data, isLoading, isRefetching , userInfo]);
+  }, [data, isLoading, isRefetching, userInfo]);
 
   return (
-    <Flex w="80%" gap="3em" h="70%" wrap="wrap" cursor="pointer" direction="column">
-      <Text mt="1em">Tus pokémons</Text>
+    <Flex
+      w="90%"
+      h="100%"
+      justifyContent="center"
+      wrap="wrap"
+      cursor="pointer"
+      direction="column"
+    >
+      <Text m="1em 0 0 3em">Tus pokémons</Text>
       <Splide
         options={{
           perPage: 3,
-          width: "100%",
+          type: "slide",
+          perMove: "1",
+          gap: "3em",
+          width: "72vw",
+          height: "43vh",
         }}
       >
         {userPokemons &&
-          userPokemons.map((pokemon) => {
-            return (
-              <SplideSlide key={pokemon.id}>
-                <PokemonCard
-                  name={pokemon.name}
-                  level={pokemon.level}
-                  image={pokemon.image}
-                  abilities={pokemon.abilities!}
-                  id={pokemon.id}
-                  types={pokemon.types!}
-                />
-              </SplideSlide>
-            );
-          })}
+          userPokemons.map((pokemon) => (
+            <SplideSlide
+              key={pokemon.id}
+              style={{ margin: "2em", height: "90%", padding: 0 }}
+            >
+              <PokemonCard
+                name={pokemon.name}
+                level={pokemon.level}
+                image={pokemon.image}
+                abilities={pokemon.abilities!}
+                id={pokemon.id}
+                types={pokemon.types!}
+              />
+            </SplideSlide>
+          ))}
       </Splide>
     </Flex>
   );

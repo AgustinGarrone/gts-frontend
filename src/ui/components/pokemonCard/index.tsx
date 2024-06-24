@@ -45,13 +45,14 @@ export const PokemonCard: FC<CardProps> = ({
 
   return (
     <Flex
-      h="15em"
+      h="19em"
       w="12em"
       borderRadius="md"
       borderWidth="2px"
       direction="column"
       borderColor="gray.200"
-      bgGradient={cardBackgroundColor}
+      bgColor="white"
+      zIndex="100"
       alignItems="start"
       justifyContent="center"
     >
@@ -62,7 +63,7 @@ export const PokemonCard: FC<CardProps> = ({
        }
       </Flex>
       <Flex
-        h="20em"
+        h="16em"
         borderTop="2px solid white"
         w="100%"
         direction="column"
@@ -70,7 +71,6 @@ export const PokemonCard: FC<CardProps> = ({
         justifyContent="flex-start"
         boxShadow="lg"
         //bgGradient="linear(to-b, #e6f7ff, #b3ecff)"
-
         bgGradient={cardBackgroundColor}
         p={4}
       >
@@ -101,7 +101,7 @@ export const PokemonCard: FC<CardProps> = ({
         </Text> */}
           {abilities.map((a) => {
             return (
-              <Text fontSize="small" key={a.id}>
+              <Text fontSize="x-small" key={a.id}>
                 {a.name}
               </Text>
             );
