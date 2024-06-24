@@ -59,7 +59,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeMode }) => {
   return (
     <Flex
       w="30%"
-      h="50em"
+      h="90%"
       direction="column"
       alignItems="center"
       justifyContent="center"

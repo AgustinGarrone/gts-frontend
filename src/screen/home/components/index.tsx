@@ -9,7 +9,7 @@ export const HomeRight = () => {
     return (
         <Flex
         w="75%"
-        h="90%"
+        h="95%"
         bg="rgba(255, 255, 255, 0.1)"
         direction="column"
         alignItems="center"

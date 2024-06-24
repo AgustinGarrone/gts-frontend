@@ -27,7 +27,7 @@ export const Pokedex = () => {
 
   return (
     <Flex w="80%" gap="3em" h="70%" wrap="wrap" cursor="pointer" direction="column">
-      <Text mt="2em">Tus pokémons</Text>
+      <Text mt="1em">Tus pokémons</Text>
       <Splide
         options={{
           perPage: 3,
