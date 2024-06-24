@@ -26,55 +26,59 @@ export const PokemonCard: FC<CardProps> = ({
 
   const renderPokemonType = (types: Type[]) => {
     const imgs = types.map((type, index) => {
-      return  <Img
-      key={index}
-      src={`/icons/${type.name.toLowerCase()}.svg`}
-      alt={types[0].name}
-      width="25px"
-      height="25px"
-      zIndex="2"
-      filter="drop-shadow(0 0 10px rgba(0, 0, 0, 0.5))"
-    />
-    })
+      return (
+        <Img
+          key={index}
+          src={`/icons/${type.name.toLowerCase()}.svg`}
+          alt={types[0].name}
+          width="25px"
+          height="25px"
+          zIndex="2"
+          filter="drop-shadow(0 0 10px rgba(0, 0, 0, 0.5))"
+        />
+      );
+    });
     return (
-      <Flex gap="1em">
-        {imgs}  
+      <Flex alignItems="center" justifyContent="center" gap="1em">
+        {imgs}
       </Flex>
-    )
-   } 
+    );
+  };
 
   return (
     <Flex
       height={{
-        xl:"19em",
-        "2xl":"25em",
+        xl: "19em",
+        "2xl": "25em",
       }}
       width={{
-        xl:"12em",
-        "2xl":"16em"
+        xl: "12em",
+        "2xl": "16em",
       }}
       borderRadius="md"
       borderWidth="2px"
       direction="column"
       borderColor="gray.200"
-      bgColor="white"
       zIndex="100"
       alignItems="start"
-      justifyContent="center"
+      justifyContent="space-between"
+      bgGradient={cardBackgroundColor}
       position="relative"
     >
-      <Flex alignItems="center" w="100%" justifyContent="space-around">
-        <span style={{ marginLeft: "1em" }}>{level}</span>
-       {
-        renderPokemonType(types)
-       }
+      <Flex
+        padding={{ xl: "2px", "2xl": "13pxpx" }}
+        alignItems="center"
+        w="100%"
+        justifyContent="space-around"
+      >
+        <span style={{ marginLeft: "1em", color: "white" }}>{level}</span>
+        {renderPokemonType(types)}
       </Flex>
       <Flex
         height={{
-          xl:"16em",
-          "2xl":"22em"
+          xl: "17em",
+          "2xl": "22em",
         }}
-        position="absolute"
         bottom="0"
         borderTop="2px solid white"
         w="100%"
@@ -82,7 +86,6 @@ export const PokemonCard: FC<CardProps> = ({
         alignItems="center"
         justifyContent="flex-start"
         boxShadow="lg"
-        //bgGradient="linear(to-b, #e6f7ff, #b3ecff)"
         bgGradient={cardBackgroundColor}
         p={4}
       >
@@ -95,8 +98,8 @@ export const PokemonCard: FC<CardProps> = ({
           justifyContent="center"
           backgroundSize="cover"
           zIndex="1"
-          mt="1em"
-          height="10em"
+          marginTop={{ "2xl": "1em" }}
+          height={{ xl: "8em", "2xl": "12em" }}
         >
           <Img
             src={image}
