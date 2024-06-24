@@ -99,6 +99,7 @@ export const Selector = () => {
               <PokemonCard
                 name={pokemon.name}
                 id={pokemon.id}
+                level={pokemon.level}
                 types={pokemon.types!}
                 abilities={pokemon.abilities!}
                 image={pokemon.image}

@@ -14,6 +14,7 @@ export const Pokedex = () => {
   const { getUserInfo } = useAuth();
   const [userPokemons, setUserPokemons] = useState<Pokemon[] | undefined>([]);
   const userInfo = getUserInfo() as DecodeTokenData | null;
+  //TODO: fix
   const { data, isLoading, error, isRefetching } = useGetUserPokemons(
     userInfo?.id
   );
@@ -26,12 +27,13 @@ export const Pokedex = () => {
   }, [data, isLoading, isRefetching , userInfo]);
 
   return (
-    <Flex w="80%" h="70%" wrap="wrap">
-      <Text>Tus pokémons</Text>
+    <Flex w="80%" gap="3em" h="70%" wrap="wrap" cursor="pointer" direction="column">
+      <Text mt="2em">Tus pokémons</Text>
       <Splide
         options={{
-          perPage: 4,
+          perPage: 3,
           width: "100%",
+          gap:"3em",
         }}
       >
         {userPokemons &&
@@ -40,6 +42,7 @@ export const Pokedex = () => {
               <SplideSlide key={pokemon.id}>
                 <PokemonCard
                   name={pokemon.name}
+                  level={pokemon.level}
                   image={pokemon.image}
                   abilities={pokemon.abilities!}
                   id={pokemon.id}

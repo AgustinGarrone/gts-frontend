@@ -6,12 +6,17 @@ import ash from "../../../../public/ash.png";
 import { TypeAnimation } from "react-type-animation";
 import { playSound, playTypeWriting } from "@/helpers/fx";
 import { Selector } from "./selector";
+import { useAuth } from "@/hooks/useAuth";
+import { DecodeTokenData } from "@/types/auth";
 
 type props = {
   username: string;
 };
 
 export const RandomPokemonSelector: FC<props> = ({ username }) => {
+  const {getUserInfo} = useAuth()
+  const userInfo = getUserInfo() as DecodeTokenData | null;
+  
   const [confirmation, setConfirmation] = useState<boolean>(false);
 
   const handleContinueClick = () => {
@@ -57,7 +62,7 @@ export const RandomPokemonSelector: FC<props> = ({ username }) => {
             >
               <TypeAnimation
                 sequence={[
-                  `Bienvenido , ${username}. Antes de empezar, debes elegir tus primeros 3 pokemon. Mucha suerte!`,
+                  `Bienvenido , ${userInfo?.username}. Antes de empezar, debes elegir tus primeros 3 pokemon. Mucha suerte!`,
                 ]}
                 speed={50}
                 style={{ fontSize: "1em" }}
