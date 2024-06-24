@@ -1,8 +1,10 @@
 import { typeColors } from "@/types/constants";
 import { Ability, Type } from "@/types/models";
-import { Box, Flex, Img, Stack, Text } from "@chakra-ui/react";
+import { Flex, Img, Stack, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import bg from "../../../../public/pokemon_bg2.jpg";
+import unknown from "../../../../public/unknown.png";
+
 
 type CardProps = {
   name: string;
@@ -100,15 +102,25 @@ export const PokemonCard: FC<CardProps> = ({
           zIndex="1"
           marginTop={{ "2xl": "1em" }}
           height={{ xl: "8em", "2xl": "12em" }}
+          width={{xl:"9em" , "2xl":"13em"}}
         >
-          <Img
-            src={image}
-            alt={name}
-            width="80%"
-            height="100%"
-            zIndex="2"
-            filter="drop-shadow(0 0 10px rgba(0, 0, 0, 0.5))"
-          />
+          {image ? (
+            <Img
+              src={image}
+              alt={name}
+              width="80%"
+              height="100%"
+              zIndex="2"
+              filter="drop-shadow(0 0 10px rgba(0, 0, 0, 0.5))"
+            />
+          ) : <Img
+          src={unknown.src}
+          alt={name}
+          width="50%"
+          height="50%"
+          zIndex="2"
+          filter="drop-shadow(0 0 10px rgba(0, 0, 0, 0.5))"
+        />}
         </Flex>
         <Stack mt="1em" spacing={1} align="center">
           {abilities.map((a) => {

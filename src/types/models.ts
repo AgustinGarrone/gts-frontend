@@ -53,6 +53,8 @@ export interface Trade {
   user2id: number;
   pokemon1id: number;
   pokemon2id: number;
+  pokemon1: Pokemon;
+  pokemon2: Pokemon;
   state: TradeState;
 }
 

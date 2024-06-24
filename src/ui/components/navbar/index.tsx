@@ -2,7 +2,6 @@
 import { Button, Flex, Img, Text } from "@chakra-ui/react";
 import trainerPicture from "../../../../public/pokeball.png";
 import Image from "next/image";
-import pokedex from "../../../../public/pokedex_icon.png";
 import { playSound } from "@/helpers/fx";
 import { useAuth } from "@/hooks/useAuth";
 import { DecodeTokenData } from "@/types/auth";
@@ -55,7 +54,6 @@ export const Navbar = () => {
     <Flex
       w="20%"
       h="100%"
-      //bg="rgba(255, 255, 255, 0.1)"
       bgGradient="linear(to-b, #e6f7ff, #b3ecff)"
       direction="column"
       alignItems="center"
@@ -96,12 +94,6 @@ export const Navbar = () => {
           isActive={checkActiveButton(Routes.PERFIL)}
           onClick={() => handleNavigation(Routes.PERFIL)}
         >
-          <Image
-            src={pokedex}
-            height={30}
-            style={{ marginRight: "2em" }}
-            alt="pokedex"
-          />
           Perfil
         </Button>
         <Button
@@ -116,7 +108,7 @@ export const Navbar = () => {
         </Button>
       </Flex>
       <Button
-        color="deepskyblue"
+        color="white"
         backgroundColor="ThreeDDarkShadow"
         width="70%"
         cursor="pointer"
@@ -124,6 +116,7 @@ export const Navbar = () => {
         bottom="100"
         fontSize="small"
         onClick={() => handleLogout()}
+        _hover={{}}
       >
         Cerrar sesión
       </Button>
