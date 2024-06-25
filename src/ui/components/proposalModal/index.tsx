@@ -52,7 +52,7 @@ export const ProposalModal: FC<ProposalModalProps> = ({
   const proposeMutation = useProposeTrade();
   const [activePokemon, setActivePokemon] = useState<Pokemon>();
 
-  const handleActiveSlide = (splide) => {
+  const handleActiveSlide = (splide: any) => {
     const activeIndex = splide.index;
     const pokemon = userPokemons![activeIndex];
     setActivePokemon(pokemon);
@@ -109,7 +109,7 @@ export const ProposalModal: FC<ProposalModalProps> = ({
             onMove={() => {
               playSound();
             }}
-            onActive={(e) => handleActiveSlide(e)}
+            onActive={(e : any) => handleActiveSlide(e)}
           >
             {userPokemons &&
               userPokemons.map((p) => {

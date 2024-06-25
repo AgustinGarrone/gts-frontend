@@ -40,7 +40,7 @@ export const DeleteModal: FC<ProposalModalProps> = ({
   const [activePokemon, setActivePokemon] = useState<Pokemon>();
   const deleteMutation = useDeletePokemon();
 
-  const handleActiveSlide = (splide) => {
+  const handleActiveSlide = (splide : any) => {
     const activeIndex = splide.index;
     const pokemon = userPokemons![activeIndex];
     setActivePokemon(pokemon);
@@ -88,7 +88,7 @@ export const DeleteModal: FC<ProposalModalProps> = ({
             onMove={() => {
               playSound();
             }}
-            onActive={(e) => handleActiveSlide(e)}
+            onActive={(e: any) => handleActiveSlide(e)}
           >
             {userPokemons &&
               userPokemons.map((p) => {

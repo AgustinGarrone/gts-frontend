@@ -35,7 +35,7 @@ export const CreateTradeModal: FC<CreateTradeModalProps> = ({
 
   const { data, isLoading, refetch, isRefetching } = useGetUserPokemons(userId);
 
-  const handleActiveSlide = (splide) => {
+  const handleActiveSlide = (splide: any) => {
     const activeIndex = splide.index;
     const pokemon = userPokemons![activeIndex];
     setActivePokemon(pokemon);
@@ -78,7 +78,7 @@ export const CreateTradeModal: FC<CreateTradeModalProps> = ({
             onMove={() => {
               playSound();
             }}
-            onActive={(e) => handleActiveSlide(e)}
+            onActive={(e: any) => handleActiveSlide(e)}
           >
             {userPokemons &&
               userPokemons.map((p) => {

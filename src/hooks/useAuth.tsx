@@ -1,3 +1,4 @@
+"use client"
 import React, { ReactNode, createContext, useContext } from "react";
 import { JwtPayload, jwtDecode } from "jwt-decode";
 import { DecodeTokenData } from "@/types/auth";
