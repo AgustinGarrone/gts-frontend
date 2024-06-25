@@ -29,6 +29,13 @@ export const useGetAvailableTrades = () => {
   });
 };
 
+export const useGetUserTrades = () => {
+  return useQuery(["getUserTrades"], async () => {
+    const response = await tradeClient.getUserTrades();
+    return response.data;
+  });
+};
+
 export const useResponseProposal = () => {
     return useMutation<ApiResponse<TradeResponse[]>, Error, ResponseProposalDto>(
       async (responseData) => {

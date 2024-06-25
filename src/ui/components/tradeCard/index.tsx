@@ -99,7 +99,7 @@ export const TradeCard: FC<TradeCardProp> = ({
       <ArrowRightIcon />
 
       <Flex direction="column" alignItems="center" justifyContent="center" gap="1em">
-      <Text fontSize="10px">{user1Name}</Text>
+      <Text fontSize="10px">Ofrecer</Text>
       <Img
         src={unknownIcon.src}
         alt={pokemon1.name}

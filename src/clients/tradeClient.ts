@@ -24,6 +24,15 @@ class TradeClient extends RESTClient {
     };
   }
 
+  async getUserTrades(): Promise<ApiResponse<Trade[]>> {
+    const response = await this.axios.get("trades/user");
+    return {
+      data: response.data.data,
+      statusCode: response.status,
+      message: response.statusText,
+    };
+  }
+
   async createTrade(
     createTradeData: CreateTradeDto
   ): Promise<ApiResponse<Trade>> {
