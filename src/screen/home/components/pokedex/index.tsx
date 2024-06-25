@@ -27,9 +27,10 @@ export const Pokedex: FC<PokedexProps> = ({ userPokemons }) => {
           perPage: 3,
           type: "slide",
           perMove: "1",
-          gap: "3em",
+          gap: "2em",
           width: "72vw",
           height: "43vh",
+          arrows: false,
         }}
         onMove={() => {
           playSound();

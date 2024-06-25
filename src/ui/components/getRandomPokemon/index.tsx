@@ -9,14 +9,10 @@ import { Selector } from "./selector";
 import { useAuth } from "@/hooks/useAuth";
 import { DecodeTokenData } from "@/types/auth";
 
-type props = {
-  username: string;
-};
-
-export const RandomPokemonSelector: FC<props> = ({ username }) => {
-  const {getUserInfo} = useAuth()
+export const RandomPokemonSelector: FC = () => {
+  const { getUserInfo } = useAuth();
   const userInfo = getUserInfo() as DecodeTokenData | null;
-  
+  const [showButton, setShowButton] = useState(false);
   const [confirmation, setConfirmation] = useState<boolean>(false);
 
   const handleContinueClick = () => {
@@ -25,8 +21,8 @@ export const RandomPokemonSelector: FC<props> = ({ username }) => {
   };
 
   useEffect(() => {
-    playTypeWriting()
-  } , [])
+    playTypeWriting();
+  }, []);
 
   return (
     <Flex
@@ -63,13 +59,18 @@ export const RandomPokemonSelector: FC<props> = ({ username }) => {
               <TypeAnimation
                 sequence={[
                   `Bienvenido , ${userInfo?.username}. Antes de empezar, debes elegir tus primeros 3 pokemon. Mucha suerte!`,
+                  () => {
+                    setShowButton(true);
+                  },
                 ]}
                 speed={50}
                 style={{ fontSize: "1em" }}
               />
-              <Button mt="5em" w="20em" onClick={() => handleContinueClick()}>
-                Vamos a ello
-              </Button>
+              {showButton && (
+                <Button mt="5em" w="20em" onClick={() => handleContinueClick()}>
+                  Comencémos!
+                </Button>
+              )}
             </Flex>
 
             <Image

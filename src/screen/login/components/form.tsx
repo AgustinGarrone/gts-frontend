@@ -86,8 +86,17 @@ export const LoginForm: FC<LoginFormProps> = ({ changeMode }) => {
           {error}
         </Alert>
       )}
-      <form style={{ textAlign: "center" }} onSubmit={handleSubmit}>
-        <FormControl id="email" mt={4}>
+      <form
+        style={{
+          textAlign: "center",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+        onSubmit={handleSubmit}
+      >
+        <FormControl width="80%" id="email" mt={4}>
           <FormLabel>Email</FormLabel>
           <Input
             type="email"
@@ -99,7 +108,7 @@ export const LoginForm: FC<LoginFormProps> = ({ changeMode }) => {
           />
           <FormHelperText>Nunca compartiremos tu email.</FormHelperText>
         </FormControl>
-        <FormControl id="password" mt={4}>
+        <FormControl width="80%" id="password" mt={4}>
           <FormLabel>Password</FormLabel>
           <Input
             type="password"

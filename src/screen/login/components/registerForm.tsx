@@ -16,6 +16,7 @@ import { FormMode } from "..";
 import { registerSchema } from "./form.schemas";
 import { z } from "zod";
 import { errorAlert } from "@/helpers/alerts";
+import { playSound } from "@/helpers/fx";
 
 type RegisterFormProps = {
   changeMode: Dispatch<SetStateAction<FormMode>>;
@@ -30,6 +31,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeMode }) => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    playSound();
 
     try {
       const formData = { username, email, password };
@@ -39,12 +41,15 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeMode }) => {
       await registerMutation.mutateAsync(formData, {
         onSuccess: (data) => {
           localStorage.setItem("accessToken", data.user.token);
-          localStorage.setItem("initialPokemons" , data.user.initialPokemons ? "true" : "false")
-          window.location.href = "/getInitial"
+          localStorage.setItem(
+            "initialPokemons",
+            data.user.initialPokemons ? "true" : "false"
+          );
+          window.location.href = "/getInitial";
         },
         onError: (error) => {
           console.error("Error al registrar usuario:", error);
-          errorAlert(`error al registrar`)
+          errorAlert(`error al registrar`);
         },
       });
     } catch (error) {
@@ -59,7 +64,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeMode }) => {
   return (
     <Flex
       w="30%"
-      h="90%"
+      h="95%"
       direction="column"
       alignItems="center"
       justifyContent="center"
@@ -73,32 +78,44 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeMode }) => {
         ¡Regístrate!
       </Text>
       {error && (
-        <Alert status="error" mb={4}>
+        <Alert height="4em" status="error" mb={4}>
           <AlertIcon />
           {error}
         </Alert>
       )}
-      <form style={{ textAlign: "center" }} onSubmit={handleSubmit}>
-        <FormControl id="username" mt={4}>
+      <form
+        style={{
+          textAlign: "center",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+        onSubmit={handleSubmit}
+      >
+        <FormControl width="80%" id="username" mt={4}>
           <FormLabel>Nombre de usuario</FormLabel>
           <Input
             type="text"
+            variant="filled"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
         </FormControl>
-        <FormControl id="email" mt={4}>
+        <FormControl width="80%" id="email" mt={4}>
           <FormLabel>Email</FormLabel>
           <Input
             type="email"
+            variant="filled"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <FormHelperText>Nunca compartiremos tu email.</FormHelperText>
         </FormControl>
-        <FormControl id="password" mt={4}>
+        <FormControl width="80%" id="password" mt={4}>
           <FormLabel>Contraseña</FormLabel>
           <Input
+            variant="filled"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -108,13 +125,16 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeMode }) => {
           Registrarse
         </Button>
       </form>
-      <Flex mt={8} direction="column" alignItems="center" justifyContent="center">
-        <Text mt={4}>
-          ¿Ya tienes una cuenta?{" "}
-        </Text>
+      <Flex
+        mt={8}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Text mt={4}>¿Ya tienes una cuenta? </Text>
         <Link onClick={() => changeMode(FormMode.LOGIN)} color="blue">
-            Iniciar sesión
-          </Link>
+          Iniciar sesión
+        </Link>
       </Flex>
     </Flex>
   );

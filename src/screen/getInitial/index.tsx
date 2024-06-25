@@ -7,7 +7,7 @@ export const GetInitialPokemonsPage = () => {
 
     return (
         <Flex direction="column" h="100vh" w="100vw" alignItems="center" justifyContent='flex-start' backgroundImage={`url(${bgImage.src})`}>
-            <RandomPokemonSelector username="Tormund"/>
+            <RandomPokemonSelector/>
             <MusicPlayerButton/>
         </Flex>
     )

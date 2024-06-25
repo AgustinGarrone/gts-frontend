@@ -22,6 +22,7 @@ export const ProfileRight = () => {
   );
 
   const closeDeleteModal = () => {
+    playSound()
     setIsOpen(false);
   };
 
