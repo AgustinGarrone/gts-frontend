@@ -16,7 +16,6 @@ export const Notifications = () => {
   const { data, isLoading, error, isRefetching } = useGetUserNotifications();
 
   useEffect(() => {
-    console.log(data);
     setNotifications(data);
   }, [data]);
 

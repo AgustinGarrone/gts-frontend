@@ -55,7 +55,6 @@ export const ProposalModal: FC<ProposalModalProps> = ({
   const handleActiveSlide = (splide) => {
     const activeIndex = splide.index;
     const pokemon = userPokemons![activeIndex];
-    console.log(pokemon);
     setActivePokemon(pokemon);
   };
 

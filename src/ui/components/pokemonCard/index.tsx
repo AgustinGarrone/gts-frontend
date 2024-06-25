@@ -5,7 +5,6 @@ import { FC } from "react";
 import bg from "../../../../public/pokemon_bg2.jpg";
 import unknown from "../../../../public/unknown.png";
 
-
 type CardProps = {
   name: string;
   image: string;
@@ -23,8 +22,14 @@ export const PokemonCard: FC<CardProps> = ({
   abilities,
   types,
 }) => {
+  const typesSorted = types.slice().sort((a, b) => a.id - b.id);
+
+  const lowestTypeId = typesSorted.length > 0 ? typesSorted[0].id : null;
+
   const cardBackgroundColor =
-    types.length > 0 ? typeColors[types[0].name.toLowerCase()] : "#FFFFFF";
+    lowestTypeId !== null
+      ? typeColors[typesSorted[0].name.toLowerCase()]
+      : "#FFFFFF";
 
   const renderPokemonType = (types: Type[]) => {
     const imgs = types.map((type, index) => {
@@ -102,7 +107,7 @@ export const PokemonCard: FC<CardProps> = ({
           zIndex="1"
           marginTop={{ "2xl": "1em" }}
           height={{ xl: "8em", "2xl": "12em" }}
-          width={{xl:"9em" , "2xl":"13em"}}
+          width={{ xl: "9em", "2xl": "13em" }}
         >
           {image ? (
             <Img
@@ -113,14 +118,16 @@ export const PokemonCard: FC<CardProps> = ({
               zIndex="2"
               filter="drop-shadow(0 0 10px rgba(0, 0, 0, 0.5))"
             />
-          ) : <Img
-          src={unknown.src}
-          alt={name}
-          width="50%"
-          height="50%"
-          zIndex="2"
-          filter="drop-shadow(0 0 10px rgba(0, 0, 0, 0.5))"
-        />}
+          ) : (
+            <Img
+              src={unknown.src}
+              alt={name}
+              width="50%"
+              height="50%"
+              zIndex="2"
+              filter="drop-shadow(0 0 10px rgba(0, 0, 0, 0.5))"
+            />
+          )}
         </Flex>
         <Stack mt="1em" spacing={1} align="center">
           {abilities.map((a) => {

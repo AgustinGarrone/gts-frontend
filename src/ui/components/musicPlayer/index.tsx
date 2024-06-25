@@ -18,7 +18,6 @@ export const MusicPlayerButton: React.FC = () => {
   }, [audio]);
 
   const togglePlayPause = () => {
-    console.log(audio);
     if (isPlaying) {
       audio.pause();
     } else {
