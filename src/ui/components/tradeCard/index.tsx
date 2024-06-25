@@ -78,6 +78,8 @@ export const TradeCard: FC<TradeCardProp> = ({
   const renderOwnerName = (username: string) => {
     if (username === userInfo.username) {
       return "Tú propuesta";
+    } else if (!username && user1Name === userInfo.username) {
+      return "Esperando..";
     } else if (!username) {
       return "Ofrecer";
     }
@@ -97,8 +99,10 @@ export const TradeCard: FC<TradeCardProp> = ({
   };
 
   const handleProposeClick = () => {
-    playSound();
-    setOpenProposal(true);
+    if (user1Name !== userInfo.username) {
+      playSound();
+      setOpenProposal(true);
+    }
   };
 
   const closeProposalModal = () => {

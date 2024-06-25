@@ -71,7 +71,7 @@ export const ProfileRight = () => {
             color="white"
             backgroundColor="red"
             cursor="pointer"
-            width="7%"
+            width="12%"
             onClick={() => openDeleteModal()}
             fontSize="10px"
             _hover={{}}

@@ -2,22 +2,31 @@
 import { Button, Flex, Text } from "@chakra-ui/react";
 import { AvailableTrades } from "./availableTrades";
 import { MyProposals } from "./myProposals";
-import { playSound } from "@/helpers/fx";
+import { playSound, playSuccess } from "@/helpers/fx";
 import { useEffect, useState } from "react";
 import { Trade } from "@/types/models";
 import {
+  useCreateTrade,
   useGetAvailableTrades,
   useGetUserTrades,
 } from "@/hooks/useTradeClient";
+import { useAuth } from "@/hooks/useAuth";
+import { DecodeTokenData } from "@/types/auth";
+import { CreateTradeModal } from "./myProposals/components/createTradeModal";
+import { errorAlert, successAlert } from "@/helpers/alerts";
 
 export const TradesRight = () => {
+  const { getUserInfo } = useAuth();
+  const userInfo = getUserInfo() as DecodeTokenData;
   const [userTrades, setUserTrades] = useState<Trade[]>([]);
+  const [createTradeModal, setCreateTradeModal] = useState(false);
   const {
     data: userTradesQuery,
     isLoading,
     refetch: refetchUserTrades,
     isRefetching,
   } = useGetUserTrades();
+  const createTradeMutation = useCreateTrade();
 
   const [availableTrades, setAvailableTrades] = useState<Trade[]>([]);
   const {
@@ -26,6 +35,38 @@ export const TradesRight = () => {
     refetch: refetchAvailableTrades,
     isRefetching: refetchingAvailable,
   } = useGetAvailableTrades();
+
+  const handleCreateTrade = () => {
+    playSound();
+    if (createTradeModal) {
+      setCreateTradeModal(false);
+    } else {
+      setCreateTradeModal(true);
+    }
+  };
+
+  const createTrade = async (pokemonId: number) => {
+    if (pokemonId) {
+      await createTradeMutation.mutateAsync(
+        { userId: userInfo.id, pokemonId },
+        {
+          async onSuccess(data) {
+            playSuccess();
+            await refetchUserTrades();
+            await refetchAvailableTrades();
+            handleCreateTrade();
+            successAlert("Intercambio creado.");
+          },
+          onError(error) {
+            handleCreateTrade();
+            errorAlert(error.message);
+          },
+        }
+      );
+    } else {
+      errorAlert("Elige un pokemon a eliminar");
+    }
+  };
 
   useEffect(() => {
     if (availableTradesQuery) {
@@ -38,10 +79,6 @@ export const TradesRight = () => {
       setUserTrades(userTradesQuery);
     }
   }, [userTradesQuery, isLoading, isRefetching]);
-
-  const createTrade = () => {
-    playSound();
-  };
 
   return (
     <Flex
@@ -105,7 +142,7 @@ export const TradesRight = () => {
             backgroundColor="green"
             cursor="pointer"
             width="7%"
-            onClick={() => createTrade()}
+            onClick={() => handleCreateTrade()}
             fontSize="10px"
             _hover={{}}
           >
@@ -116,6 +153,14 @@ export const TradesRight = () => {
           refetchUserTrades={refetchUserTrades}
           userTrades={userTrades}
         />
+        {createTradeModal && (
+          <CreateTradeModal
+            userId={userInfo.id}
+            onCreate={createTrade}
+            createTradeModal={createTradeModal}
+            onClose={handleCreateTrade}
+          />
+        )}
       </Flex>
     </Flex>
   );

@@ -1,11 +1,8 @@
 "use client";
-import { useAuth } from "@/hooks/useAuth";
-import { useGetUserPokemons } from "@/hooks/usePokemonClient";
-import { DecodeTokenData } from "@/types/auth";
 import { Pokemon } from "@/types/models";
 import { PokemonCard } from "@/ui/components/pokemonCard";
-import { Flex, Text } from "@chakra-ui/react";
-import { FC, useEffect, useState } from "react";
+import { Flex } from "@chakra-ui/react";
+import { FC } from "react";
 // @ts-ignore
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";

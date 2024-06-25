@@ -1,44 +1,39 @@
-import { Pokemon } from "@/types/models";
+"use client";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
 } from "@chakra-ui/react";
-import { FC, useState } from "react";
-import {
-  QueryObserverResult,
-  RefetchOptions,
-  RefetchQueryFilters,
-} from "react-query";
+import { FC, SetStateAction, useEffect, useState } from "react";
 // @ts-ignore
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
-import { playSound, playSuccess } from "@/helpers/fx";
-import { PokemonCard } from "../pokemonCard";
-import { useDeletePokemon } from "@/hooks/usePokemonClient";
-import { errorAlert, successAlert } from "@/helpers/alerts";
+import { Pokemon } from "@/types/models";
+import { useGetUserPokemons } from "@/hooks/usePokemonClient";
+import { playSound } from "@/helpers/fx";
+import { PokemonCard } from "@/ui/components/pokemonCard";
 
-type ProposalModalProps = {
-  closeDeleteModal: () => void;
-  isOpen: boolean;
-  userPokemons: Pokemon[];
-  refetch: <TPageData>(
-    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
-  ) => Promise<QueryObserverResult<Pokemon[], unknown>>;
+type CreateTradeModalProps = {
+  onCreate: (pokemonId: number) => Promise<void>;
+  createTradeModal: boolean;
+  userId: number;
+  onClose: () => void;
 };
 
-export const DeleteModal: FC<ProposalModalProps> = ({
-  closeDeleteModal,
-  isOpen,
-  userPokemons,
-  refetch,
+export const CreateTradeModal: FC<CreateTradeModalProps> = ({
+  onCreate,
+  createTradeModal,
+  userId,
+  onClose,
 }) => {
+  const [userPokemons, setUserPokemons] = useState<Pokemon[]>();
   const [activePokemon, setActivePokemon] = useState<Pokemon>();
-  const deleteMutation = useDeletePokemon();
+
+  const { data, isLoading, refetch, isRefetching } = useGetUserPokemons(userId);
 
   const handleActiveSlide = (splide) => {
     const activeIndex = splide.index;
@@ -46,29 +41,24 @@ export const DeleteModal: FC<ProposalModalProps> = ({
     setActivePokemon(pokemon);
   };
 
-  const deletePokemon = async () => {
+  const handleOnCreate = () => {
     if (activePokemon) {
-      await deleteMutation.mutateAsync(activePokemon.id, {
-        async onSuccess(data) {
-          closeDeleteModal();
-          await refetch();
-          successAlert("Pokémon eliminado con éxito");
-          playSuccess();
-        },
-        onError(error) {
-          closeDeleteModal();
-          errorAlert(error.message);
-        },
-      });
+      onCreate(activePokemon.id);
     }
   };
 
+  useEffect(() => {
+    if (data) {
+      setUserPokemons(data);
+    }
+  }, [data, isLoading, isRefetching]);
+
   return (
-    <Modal isOpen={isOpen} onClose={closeDeleteModal} size="xl">
+    <Modal isOpen={createTradeModal} onClose={onClose} size="xl">
       <ModalOverlay />
       <ModalContent bgGradient="linear(to-b, #e6f7ff, #b3ecff)">
         <ModalHeader textAlign="center">
-          ¿Qué pokémon deseas eliminar?
+          ¿Qué pokémon deseas intercambiar?
         </ModalHeader>
         <ModalBody
           display="flex"
@@ -116,16 +106,16 @@ export const DeleteModal: FC<ProposalModalProps> = ({
             bgColor="green"
             color="white"
             mr={3}
-            onClick={deletePokemon}
+            onClick={() => handleOnCreate()}
           >
-            Eliminar
+            Intercambiar
           </Button>
           <Button
             _hover={{}}
             bgColor="red"
             color="white"
             mr={3}
-            onClick={closeDeleteModal}
+            onClick={onClose}
           >
             Cancelar
           </Button>
