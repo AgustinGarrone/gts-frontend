@@ -4,7 +4,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "../hooks/useAuth";
 import { Metadata } from "next";
 import { Press_Start_2P } from "next/font/google";
-import { MusicPlayerButton } from "@/ui/components/musicPlayer";
 
 type Props = {
   children: JSX.Element;
@@ -24,12 +23,14 @@ export const metadata: Metadata = {
 export const Layout: React.FC<Props> = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, userHasInitialPokemons } = useAuth();
 
   useEffect(() => {
     const checkAuthAndRedirect = async () => {
       if (isAuthenticated()) {
         if (pathname === "/login") {
+          router.push("/");
+        } else if (userHasInitialPokemons()) {
           router.push("/");
         }
       } else {
@@ -40,5 +41,5 @@ export const Layout: React.FC<Props> = ({ children }) => {
     checkAuthAndRedirect();
   }, [isAuthenticated, router]);
 
-  return <><MusicPlayerButton/> <div>{children}</div> </>;
+  return <div>{children}</div>;
 };
