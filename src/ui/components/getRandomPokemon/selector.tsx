@@ -33,6 +33,9 @@ export const Selector = () => {
             });
             playSuccess();
           },
+          onError(error) {
+            errorAlert(error.message)
+          }
         }
       );
     } catch (error) {

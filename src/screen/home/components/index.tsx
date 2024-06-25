@@ -1,14 +1,40 @@
-"use client"
+"use client";
 import { Button, Flex, Text } from "@chakra-ui/react";
 import { Notifications } from "./notifications";
 import { Pokedex } from "./pokedex";
 import { IoNotificationsCircle } from "react-icons/io5";
 import { playSound } from "@/helpers/fx";
+import { useEffect, useState } from "react";
+import { DeleteModal } from "@/ui/components/deleteModal";
+import { useAuth } from "@/hooks/useAuth";
+import { DecodeTokenData } from "@/types/auth";
+import { Pokemon } from "@/types/models";
+import { useGetUserPokemons } from "@/hooks/usePokemonClient";
 
 export const ProfileRight = () => {
-  const deletePokemon = () => {
-    playSound();
+  const { getUserInfo } = useAuth();
+  const [userPokemons, setUserPokemons] = useState<Pokemon[] | undefined>([]);
+  const userInfo = getUserInfo() as DecodeTokenData;
+  const [isOpen, setIsOpen] = useState(false);
+
+  const { data, isLoading, refetch, isRefetching } = useGetUserPokemons(
+    userInfo.id
+  );
+
+  const closeDeleteModal = () => {
+    setIsOpen(false);
   };
+
+  const openDeleteModal = () => {
+    playSound();
+    setIsOpen(true);
+  };
+
+  useEffect(() => {
+    if (userInfo) {
+      setUserPokemons(data);
+    }
+  }, [data, isLoading, isRefetching, userInfo]);
 
   return (
     <Flex
@@ -46,14 +72,14 @@ export const ProfileRight = () => {
             backgroundColor="red"
             cursor="pointer"
             width="7%"
-            onClick={() => deletePokemon()}
+            onClick={() => openDeleteModal()}
             fontSize="10px"
             _hover={{}}
           >
             Eliminar
           </Button>
         </Flex>
-        <Pokedex />
+        {userPokemons && <Pokedex userPokemons={userPokemons} />}
       </Flex>
       <Flex
         bg="rgba(255, 255, 255, 0.1)"
@@ -78,6 +104,14 @@ export const ProfileRight = () => {
         </Flex>
         <Notifications />
       </Flex>
+      {isOpen && userPokemons && (
+        <DeleteModal
+          refetch={refetch}
+          closeDeleteModal={closeDeleteModal}
+          userPokemons={userPokemons}
+          isOpen={isOpen}
+        />
+      )}
     </Flex>
   );
 };

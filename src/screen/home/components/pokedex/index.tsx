@@ -5,27 +5,17 @@ import { DecodeTokenData } from "@/types/auth";
 import { Pokemon } from "@/types/models";
 import { PokemonCard } from "@/ui/components/pokemonCard";
 import { Flex, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 // @ts-ignore
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
 import { playSound } from "@/helpers/fx";
 
-export const Pokedex = () => {
-  const { getUserInfo } = useAuth();
-  const [userPokemons, setUserPokemons] = useState<Pokemon[] | undefined>([]);
-  const userInfo = getUserInfo() as DecodeTokenData | null;
-  //TODO: fix
-  const { data, isLoading, error, isRefetching } = useGetUserPokemons(
-    userInfo?.id
-  );
+type PokedexProps = {
+  userPokemons: Pokemon[];
+};
 
-  useEffect(() => {
-    if (userInfo) {
-      setUserPokemons(data);
-    }
-  }, [data, isLoading, isRefetching, userInfo]);
-
+export const Pokedex: FC<PokedexProps> = ({ userPokemons }) => {
   return (
     <Flex
       w="90%"
@@ -35,7 +25,6 @@ export const Pokedex = () => {
       cursor="pointer"
       direction="column"
     >
- 
       <Splide
         options={{
           perPage: 3,
@@ -45,7 +34,9 @@ export const Pokedex = () => {
           width: "72vw",
           height: "43vh",
         }}
-        onMove={() => {playSound()}}
+        onMove={() => {
+          playSound();
+        }}
       >
         {userPokemons &&
           userPokemons.map((pokemon) => (

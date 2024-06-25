@@ -9,40 +9,36 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { FC, useState } from "react";
-import { PokemonCard } from "../pokemonCard";
-import { useProposeTrade } from "@/hooks/useTradeClient";
-import { errorAlert, successAlert } from "@/helpers/alerts";
 import {
   QueryObserverResult,
   RefetchOptions,
   RefetchQueryFilters,
 } from "react-query";
-import { playSound } from "@/helpers/fx";
 // @ts-ignore
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
+import { playSound, playSuccess } from "@/helpers/fx";
+import { PokemonCard } from "../pokemonCard";
+import { useDeletePokemon } from "@/hooks/usePokemonClient";
+import { errorAlert, successAlert } from "@/helpers/alerts";
 
 type ProposalModalProps = {
-  closeProposalModal: () => void;
+  closeDeleteModal: () => void;
   isOpen: boolean;
-  wantedPokemonName: string;
-  tradeId: number;
   userPokemons: Pokemon[];
   refetch: <TPageData>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
   ) => Promise<QueryObserverResult<Pokemon[], unknown>>;
 };
 
-export const ProposalModal: FC<ProposalModalProps> = ({
-  closeProposalModal,
+export const DeleteModal: FC<ProposalModalProps> = ({
+  closeDeleteModal,
   isOpen,
-  wantedPokemonName,
-  tradeId,
   userPokemons,
   refetch,
 }) => {
-  const proposeMutation = useProposeTrade();
   const [activePokemon, setActivePokemon] = useState<Pokemon>();
+  const deleteMutation = useDeletePokemon();
 
   const handleActiveSlide = (splide) => {
     const activeIndex = splide.index;
@@ -51,41 +47,27 @@ export const ProposalModal: FC<ProposalModalProps> = ({
     setActivePokemon(pokemon);
   };
 
-  const confirmProposal = async () => {
-    if (activePokemon) {
-      await proposeMutation.mutateAsync(
-        {
-          tradeId: tradeId,
-          pokemonId: activePokemon.id,
-        },
-        {
-          onSuccess: (data) => {
-            closeProposalModal();
-            successAlert("Intercambio ofrecido con éxito");
-            refetch();
-          },
-          onError: (error) => {
-            console.error("Error al agregar pokemons:", error);
-            closeProposalModal();
-            errorAlert(
-              error.response
-                ? error.response.data.message
-                : "Error al ofrecer pokémon"
-            );
-          },
-        }
-      );
-    } else {
-      errorAlert("Debes elegir un pokémon antes");
-    }
+  const deletePokemon = async () => {
+    await deleteMutation.mutateAsync(activePokemon.id, {
+      onSuccess(data) {
+        closeDeleteModal();
+        refetch();
+        successAlert("Pokémon eliminado con éxito");
+        playSuccess();
+      },
+      onError(error) {
+        closeDeleteModal();
+        errorAlert(error.message);
+      },
+    });
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={closeProposalModal} size="xl">
+    <Modal isOpen={isOpen} onClose={closeDeleteModal} size="xl">
       <ModalOverlay />
       <ModalContent bgGradient="linear(to-b, #e6f7ff, #b3ecff)">
         <ModalHeader textAlign="center">
-          ¿Que pokémon ofreces a cambio de {wantedPokemonName}?
+          ¿Qué pokémon deseas eliminar?
         </ModalHeader>
         <ModalBody
           display="flex"
@@ -133,16 +115,16 @@ export const ProposalModal: FC<ProposalModalProps> = ({
             bgColor="green"
             color="white"
             mr={3}
-            onClick={confirmProposal}
+            onClick={deletePokemon}
           >
-            Ofrecer
+            Eliminar
           </Button>
           <Button
             _hover={{}}
             bgColor="red"
             color="white"
             mr={3}
-            onClick={closeProposalModal}
+            onClick={closeDeleteModal}
           >
             Cerrar
           </Button>
