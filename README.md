@@ -1,6 +1,6 @@
 
-## Haciendola Frontend
-Aplicación SPA de productos y usuarios, con una base inicial de productos cargados mediante un excel.
+## GTS Frontend
+Sistema de intercambio entre usuarios
 
 ## Tecnologías destacadas
 
