@@ -1,49 +1,49 @@
 
-## GTS POKÉMON
-
-Aplicación de sistema de intercambios.
+## Haciendola Frontend
+Aplicación SPA de productos y usuarios, con una base inicial de productos cargados mediante un excel.
 
 ## Tecnologías destacadas
 
-- **NestJS**: Framework de Node.js para construir aplicaciones eficientes y escalables del lado del servidor.
-- **Express**: Framework web minimalista para Node.js utilizado por NestJS como base.
-- **Passport.js**: Middleware de autenticación para Node.js.
-- **Sequelize**: ORM (Object-Relational Mapping) para Node.js, compatible con varios dialectos SQL, incluido PostgreSQL.
-- **PostgreSQL**: Sistema de gestión de bases de datos relacional de código abierto.
-- **JWT (JSON Web Tokens)**: Método estándar para la transferencia segura de datos entre dos partes.
+- **Next.js**: Framework de React.js para la creación de aplicaciones web modernas del lado del cliente y del servidor.
+- **Chakra UI**: Biblioteca de componentes accesibles y personalizables para React.
+- **React Query**: Biblioteca para la gestión de estados y la gestión de datos en aplicaciones React.
+- **Axios**: Cliente HTTP basado en Promesas para el navegador y Node.js.
+- **JWT Decode**: Biblioteca para decodificar tokens JWT en JavaScript.
+- **SweetAlert2**: Biblioteca para crear alertas y modales personalizados en JavaScript.
+- **Zod**: Biblioteca para esquemas de validación de datos en TypeScript
+- **React splide**: Biblioteca de sliders.
 
 ## Pre requisitos
-- Tener **Docker** instalado en tu sistema
+- Node.js y npm instalados en tu sistema
 
 ## Instalacion
 
 Ejecutamos el comando
 ```bash
 
-$ git clone https://github.com/AgustinGarrone/gts-backend.git
+$ git clone https://github.com/AgustinGarrone/gts-frontend.git
 ```
 
 Accede al directorio del repositorio
 ```bash
 
-$ cd gts-backend
+$ cd gts-frontend
 ```
 
+Instala las dependencias del proyecto:
+
+```bash
+
+$ npm install
+```
 
 ## Ejecución
 
+ejecutar en modo dev
 ```bash
-# Construimos la imagen basada en la aplicación
-docker build -t gts-pokemon .
+# development
+$ npm run dev
 
-# Ejecutamos las imagenes (postgres y app)
-docker compose up
-```
 
-Y listo!
+Una vez iniciado el proyecto debe ir a http://localhost:4000/login y registrar un usuario para empezar
 
-## Documentación
-Visitando /docs encuentra la documentación del api rest
-**http://localhost:3000/docs**
-
-Además de una colección de thunderClient en formato json
