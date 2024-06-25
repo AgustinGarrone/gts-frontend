@@ -1,8 +1,14 @@
-import { Flex, Text } from "@chakra-ui/react";
+"use client";
+import { Button, Flex, Text } from "@chakra-ui/react";
 import { AvailableTrades } from "./availableTrades";
 import { MyProposals } from "./myProposals";
+import { playSound } from "@/helpers/fx";
 
 export const TradesRight = () => {
+  const createTrade = () => {
+    playSound();
+  };
+
   return (
     <Flex
       w="75%"
@@ -13,7 +19,7 @@ export const TradesRight = () => {
       gap="1em"
       marginLeft="3em"
     >
-       <Flex
+      <Flex
         w="100%"
         borderRadius="15px"
         h="50%"
@@ -27,11 +33,11 @@ export const TradesRight = () => {
       >
         <Flex
           alignItems="center"
-          h="3em"
+          h="4em"
           bgGradient="linear(to-b, #e6f7ff, #b3ecff)"
           w="100%"
         >
-          <Text ml="3em">Trades disponibles</Text>
+          <Text ml="3em">Intercambios disponibles</Text>
         </Flex>
         <AvailableTrades />
       </Flex>
@@ -49,11 +55,24 @@ export const TradesRight = () => {
       >
         <Flex
           alignItems="center"
-          h="3em"
+          h="4em"
+          justifyContent="space-between"
           bgGradient="linear(to-b, #e6f7ff, #b3ecff)"
           w="100%"
         >
           <Text ml="3em">Tus propuestas</Text>
+          <Button
+            mr="4em"
+            color="white"
+            backgroundColor="green"
+            cursor="pointer"
+            width="7%"
+            onClick={() => createTrade()}
+            fontSize="10px"
+            _hover={{}}
+          >
+            Crear
+          </Button>
         </Flex>
         <MyProposals />
       </Flex>

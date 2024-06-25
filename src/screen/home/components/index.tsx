@@ -1,9 +1,15 @@
-import { Flex, Text } from "@chakra-ui/react";
+"use client"
+import { Button, Flex, Text } from "@chakra-ui/react";
 import { Notifications } from "./notifications";
 import { Pokedex } from "./pokedex";
 import { IoNotificationsCircle } from "react-icons/io5";
+import { playSound } from "@/helpers/fx";
 
 export const ProfileRight = () => {
+  const deletePokemon = () => {
+    playSound();
+  };
+
   return (
     <Flex
       w="75%"
@@ -28,11 +34,24 @@ export const ProfileRight = () => {
       >
         <Flex
           alignItems="center"
-          h="3em"
+          h="4em"
+          justifyContent="space-between"
           bgGradient="linear(to-b, #e6f7ff, #b3ecff)"
           w="100%"
         >
           <Text ml="3em">Tus pokémons</Text>
+          <Button
+            mr="4em"
+            color="white"
+            backgroundColor="red"
+            cursor="pointer"
+            width="7%"
+            onClick={() => deletePokemon()}
+            fontSize="10px"
+            _hover={{}}
+          >
+            Eliminar
+          </Button>
         </Flex>
         <Pokedex />
       </Flex>

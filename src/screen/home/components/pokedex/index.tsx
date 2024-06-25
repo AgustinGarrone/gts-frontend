@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 // @ts-ignore
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
+import { playSound } from "@/helpers/fx";
 
 export const Pokedex = () => {
   const { getUserInfo } = useAuth();
@@ -44,6 +45,7 @@ export const Pokedex = () => {
           width: "72vw",
           height: "43vh",
         }}
+        onMove={() => {playSound()}}
       >
         {userPokemons &&
           userPokemons.map((pokemon) => (
