@@ -3,8 +3,42 @@ import { Button, Flex, Text } from "@chakra-ui/react";
 import { AvailableTrades } from "./availableTrades";
 import { MyProposals } from "./myProposals";
 import { playSound } from "@/helpers/fx";
+import { useEffect, useState } from "react";
+import { Trade } from "@/types/models";
+import {
+  useGetAvailableTrades,
+  useGetUserTrades,
+} from "@/hooks/useTradeClient";
 
 export const TradesRight = () => {
+  const [userTrades, setUserTrades] = useState<Trade[]>([]);
+  const {
+    data: userTradesQuery,
+    isLoading,
+    refetch: refetchUserTrades,
+    isRefetching,
+  } = useGetUserTrades();
+
+  const [availableTrades, setAvailableTrades] = useState<Trade[]>([]);
+  const {
+    data: availableTradesQuery,
+    isLoading: loadingAvailable,
+    refetch: refetchAvailableTrades,
+    isRefetching: refetchingAvailable,
+  } = useGetAvailableTrades();
+
+  useEffect(() => {
+    if (availableTradesQuery) {
+      setAvailableTrades(availableTradesQuery);
+    }
+  }, [availableTradesQuery, loadingAvailable, refetchingAvailable]);
+
+  useEffect(() => {
+    if (userTradesQuery) {
+      setUserTrades(userTradesQuery);
+    }
+  }, [userTradesQuery, isLoading, isRefetching]);
+
   const createTrade = () => {
     playSound();
   };
@@ -39,7 +73,11 @@ export const TradesRight = () => {
         >
           <Text ml="3em">Intercambios disponibles</Text>
         </Flex>
-        <AvailableTrades />
+        <AvailableTrades
+          refetchAvailableTrades={refetchAvailableTrades}
+          refetchUserTrades={refetchUserTrades}
+          availableTrades={availableTrades}
+        />
       </Flex>
       <Flex
         bg="rgba(255, 255, 255, 0.1)"
@@ -74,7 +112,10 @@ export const TradesRight = () => {
             Crear
           </Button>
         </Flex>
-        <MyProposals />
+        <MyProposals
+          refetchUserTrades={refetchUserTrades}
+          userTrades={userTrades}
+        />
       </Flex>
     </Flex>
   );

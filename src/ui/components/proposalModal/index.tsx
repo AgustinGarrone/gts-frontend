@@ -1,4 +1,4 @@
-import { Pokemon } from "@/types/models";
+import { Pokemon, Trade } from "@/types/models";
 import {
   Modal,
   ModalOverlay,
@@ -28,9 +28,15 @@ type ProposalModalProps = {
   wantedPokemonName: string;
   tradeId: number;
   userPokemons: Pokemon[];
-  refetch: <TPageData>(
+  refetchPokemons: <TPageData>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
   ) => Promise<QueryObserverResult<Pokemon[], unknown>>;
+  refetchAvailableTrades: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+  ) => Promise<QueryObserverResult<Trade[], unknown>>;
+  refetchUserTrades: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+  ) => Promise<QueryObserverResult<Trade[], unknown>>;
 };
 
 export const ProposalModal: FC<ProposalModalProps> = ({
@@ -39,7 +45,9 @@ export const ProposalModal: FC<ProposalModalProps> = ({
   wantedPokemonName,
   tradeId,
   userPokemons,
-  refetch,
+  refetchPokemons,
+  refetchAvailableTrades,
+  refetchUserTrades,
 }) => {
   const proposeMutation = useProposeTrade();
   const [activePokemon, setActivePokemon] = useState<Pokemon>();
@@ -62,7 +70,9 @@ export const ProposalModal: FC<ProposalModalProps> = ({
           onSuccess: (data) => {
             closeProposalModal();
             successAlert("Intercambio ofrecido con éxito");
-            refetch();
+            refetchPokemons();
+            refetchAvailableTrades();
+            refetchUserTrades();
           },
           onError: (error) => {
             console.error("Error al agregar pokemons:", error);

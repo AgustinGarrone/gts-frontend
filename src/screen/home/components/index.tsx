@@ -18,7 +18,7 @@ export const ProfileRight = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { data, isLoading, refetch, isRefetching } = useGetUserPokemons(
-    userInfo.id
+    userInfo?.id
   );
 
   const closeDeleteModal = () => {

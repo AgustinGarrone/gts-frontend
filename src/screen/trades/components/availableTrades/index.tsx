@@ -1,24 +1,33 @@
 "use client";
-import { useGetAvailableTrades } from "@/hooks/useTradeClient";
 import { Trade } from "@/types/models";
 import { TradeCard } from "@/ui/components/tradeCard";
-import { Flex, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { Flex } from "@chakra-ui/react";
+import { FC } from "react";
 // @ts-ignore
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
 import { playSound } from "@/helpers/fx";
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  RefetchQueryFilters,
+} from "react-query";
 
-export const AvailableTrades = () => {
-  const [availableTrades, setAvailableTrades] = useState<Trade[]>([]);
-  const { data, isLoading, error, isRefetching } = useGetAvailableTrades();
+type AvailableTradesProps = {
+  availableTrades: Trade[];
+  refetchAvailableTrades: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+  ) => Promise<QueryObserverResult<Trade[], unknown>>;
+  refetchUserTrades: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+  ) => Promise<QueryObserverResult<Trade[], unknown>>;
+};
 
-  useEffect(() => {
-    if (data) {
-      setAvailableTrades(data);
-    }
-  }, [data, isLoading]);
-
+export const AvailableTrades: FC<AvailableTradesProps> = ({
+  availableTrades,
+  refetchAvailableTrades,
+  refetchUserTrades,
+}) => {
   return (
     <Flex
       alignItems="center"
@@ -34,17 +43,23 @@ export const AvailableTrades = () => {
           perMove: "2",
           width: "72vw",
           height: "20vh",
+          arrows: false,
         }}
-        onMove={() => {playSound()}}
+        onMove={() => {
+          playSound();
+        }}
       >
         {availableTrades &&
           availableTrades.map((t) => {
             return (
               <SplideSlide
                 key={t.id}
-                style={{ margin: "2em", height: "100%", padding: 0 }}
+                style={{ marginTop: "1em", height: "100%", padding: 0 }}
               >
                 <TradeCard
+                  refetchUserTrades={refetchUserTrades}
+                  refetchAvailableTrades={refetchAvailableTrades}
+                  tradeState={t.state}
                   user1Name={t.user1.username}
                   tradeId={t.id}
                   pokemon1={t.pokemon1}
