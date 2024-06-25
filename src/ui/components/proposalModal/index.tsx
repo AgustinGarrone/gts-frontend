@@ -74,13 +74,8 @@ export const ProposalModal: FC<ProposalModalProps> = ({
             await refetchUserTrades();
           },
           onError: (error) => {
-            console.error("Error al agregar pokemons:", error);
             closeProposalModal();
-            errorAlert(
-              error.response
-                ? error.response.data.message
-                : "Error al ofrecer pokémon"
-            );
+            errorAlert(error.message);
           },
         }
       );

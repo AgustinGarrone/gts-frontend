@@ -19,7 +19,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { GiSelect } from "react-icons/gi";
 import ConfirmationModal from "@/screen/trades/components/myProposals/components/confirmationModal";
 import { useResponseProposal } from "@/hooks/useTradeClient";
-import { successAlert } from "@/helpers/alerts";
+import { errorAlert, successAlert } from "@/helpers/alerts";
 
 type TradeCardProp = {
   tradeId: number;
@@ -124,6 +124,9 @@ export const TradeCard: FC<TradeCardProp> = ({
           setOpenResponseModal(false);
           playSuccess();
           successAlert("Intercambio respondido con éxito");
+        },
+        onError: (error) => {
+          errorAlert(error.message);
         },
       }
     );
