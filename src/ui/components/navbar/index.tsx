@@ -20,14 +20,6 @@ export const Navbar = () => {
   const currentPath = usePathname();
   const [activePath, setActivePath] = useState(Routes.PERFIL);
 
-  useEffect(() => {
-    if (currentPath === "/") {
-      setActivePath(Routes.PERFIL);
-    } else if (currentPath === "/trades") {
-      setActivePath(Routes.TRADES);
-    }
-  }, [currentPath]);
-
   const handleNavigation = (page: Routes) => {
     if (page === Routes.PERFIL) {
       playSound();
@@ -49,6 +41,14 @@ export const Navbar = () => {
     playSound();
     logout();
   };
+
+  useEffect(() => {
+    if (currentPath === "/") {
+      setActivePath(Routes.PERFIL);
+    } else if (currentPath === "/trades") {
+      setActivePath(Routes.TRADES);
+    }
+  }, [currentPath]);
 
   return (
     <Flex

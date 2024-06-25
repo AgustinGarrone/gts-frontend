@@ -19,7 +19,7 @@ export const AvailableTrades = () => {
     <Flex alignItems="center" h="100%" justifyContent="space-around" w="100%" gap="3em">
       {availableTrades &&
         availableTrades.map((t) => {
-          return <TradeCard key={t.id} pokemon1={t.pokemon1} />;
+          return <TradeCard key={t.id} user1Name={t.user1.username} tradeId={t.id} pokemon1={t.pokemon1} />;
         })}
     </Flex>
   );

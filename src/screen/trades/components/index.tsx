@@ -53,7 +53,7 @@ export const TradesRight = () => {
           bgGradient="linear(to-b, #e6f7ff, #b3ecff)"
           w="100%"
         >
-          <Text ml="3em">Propuestas</Text>
+          <Text ml="3em">Tus propuestas</Text>
         </Flex>
         <MyProposals />
       </Flex>

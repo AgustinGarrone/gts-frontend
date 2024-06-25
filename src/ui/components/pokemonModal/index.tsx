@@ -47,7 +47,7 @@ export const PokemonModal: FC<ModalProps> = ({
           )}
         </ModalBody>
         <ModalFooter display="flex" justifyContent="center">
-          <Button bgColor="black" color="white" mr={3} onClick={closePokemonDetail}>
+          <Button _hover={{}} bgColor="black" color="white" mr={3} onClick={closePokemonDetail}>
             Cerrar
           </Button>
         </ModalFooter>

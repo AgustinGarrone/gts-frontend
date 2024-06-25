@@ -5,6 +5,7 @@ import { ArrowRightIcon } from "@chakra-ui/icons";
 import { FC, useState } from "react";
 import unknownIcon from "../../../../public/unknown.png";
 import { PokemonModal } from "../pokemonModal";
+import { playSound } from "@/helpers/fx";
 
 type TradeCardProp = {
   pokemon1: Pokemon;
@@ -17,11 +18,13 @@ export const TradeCard: FC<TradeCardProp> = ({ pokemon1, pokemon2 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openPokemonDetail = (pokemon: Pokemon) => {
+    playSound()
     setSelectedPokemon(pokemon);
     setIsOpen(true);
   };
 
   const closePokemonDetail = () => {
+    playSound()
     setSelectedPokemon(null);
     setIsOpen(false);
   };

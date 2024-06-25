@@ -1,7 +1,6 @@
 export interface User {
   id: string;
-  name: string;
-  lastname: string;
+  username: string;
   email: string;
   initialPokemons: boolean;
 }
@@ -51,6 +50,8 @@ export interface Trade {
   id: number;
   user1id: number;
   user2id: number;
+  user1: User;
+  user2: User;
   pokemon1id: number;
   pokemon2id: number;
   pokemon1: Pokemon;
