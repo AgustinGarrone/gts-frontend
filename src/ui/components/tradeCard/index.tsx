@@ -1,11 +1,9 @@
 "use client";
-import { Pokemon, Trade, TradeState } from "@/types/models";
+import { Pokemon, Trade, TradeResponse, TradeState } from "@/types/models";
 import { Flex, Img, Text } from "@chakra-ui/react";
-import { ArrowRightIcon } from "@chakra-ui/icons";
 import { FC, useEffect, useState } from "react";
-import unknownIcon from "../../../../public/unknown.png";
 import { PokemonModal } from "../pokemonModal";
-import { playSound } from "@/helpers/fx";
+import { playSound, playSuccess } from "@/helpers/fx";
 import { ProposalModal } from "../proposalModal";
 import { useGetUserPokemons } from "@/hooks/usePokemonClient";
 import { useAuth } from "@/hooks/useAuth";
@@ -16,6 +14,12 @@ import {
   RefetchOptions,
   RefetchQueryFilters,
 } from "react-query";
+import { AiOutlineCheckCircle } from "react-icons/ai";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import { GiSelect } from "react-icons/gi";
+import ConfirmationModal from "@/screen/trades/components/myProposals/components/confirmationModal";
+import { useResponseProposal } from "@/hooks/useTradeClient";
+import { successAlert } from "@/helpers/alerts";
 
 type TradeCardProp = {
   tradeId: number;
@@ -45,9 +49,13 @@ export const TradeCard: FC<TradeCardProp> = ({
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [openProposal, setOpenProposal] = useState(false);
+  const [openResponseModal, setOpenResponseModal] = useState(false);
+  const [responseProposal, setResponseProposal] = useState<TradeResponse>();
   const { getUserInfo } = useAuth();
   const userInfo = getUserInfo() as DecodeTokenData;
   const [userPokemons, setUserPokemons] = useState<Pokemon[]>([]);
+  const responseProposalMutation = useResponseProposal();
+
   const { data, isLoading, refetch, isRefetching } = useGetUserPokemons(
     userInfo.id
   );
@@ -55,6 +63,11 @@ export const TradeCard: FC<TradeCardProp> = ({
   const renderTradeState = () => {
     if (tradeState === TradeState.PENDING) {
       return "Pendiente";
+    } else if (
+      tradeState === TradeState.PROPOSED &&
+      user1Name === userInfo.username
+    ) {
+      return "Propuesta recibida";
     } else if (tradeState === TradeState.PROPOSED) {
       return "Propuesta realizada";
     } else {
@@ -93,6 +106,29 @@ export const TradeCard: FC<TradeCardProp> = ({
     setOpenProposal(false);
   };
 
+  const handleResponseAction = (response: TradeResponse) => {
+    playSound();
+    setResponseProposal(response);
+    setOpenResponseModal(true);
+  };
+
+  const handleResponseProposal = async (tradeResponse: TradeResponse) => {
+    await responseProposalMutation.mutateAsync(
+      { tradeId, tradeResponse },
+      {
+        onSuccess: async (data) => {
+          if (refetchAvailableTrades) {
+            await refetchAvailableTrades();
+          }
+          await refetchUserTrades();
+          setOpenResponseModal(false);
+          playSuccess();
+          successAlert("Intercambio respondido con éxito");
+        },
+      }
+    );
+  };
+
   useEffect(() => {
     if (data && userInfo) {
       setUserPokemons(data);
@@ -116,6 +152,7 @@ export const TradeCard: FC<TradeCardProp> = ({
           alignItems="center"
           justifyContent="center"
           gap="1em"
+          width="40%"
         >
           <Text fontSize="10px">{renderOwnerName(user1Name)}</Text>
           <Flex
@@ -139,11 +176,33 @@ export const TradeCard: FC<TradeCardProp> = ({
           </Flex>
         </Flex>
 
-        <FaExchangeAlt style={{ height: "100px" }} />
+        <Flex
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          h="100%"
+          w="20%"
+        >
+          <FaExchangeAlt style={{ height: "30%", width: "100%" }} />
+          {user1Name === userInfo.username &&
+            tradeState === TradeState.PROPOSED && (
+              <Flex h="50%" w="100%">
+                <AiOutlineCheckCircle
+                  onClick={() => handleResponseAction(TradeResponse.CONFIRM)}
+                  style={{ width: "70%", height: "80%", cursor: "pointer" }}
+                />
+                <AiOutlineCloseCircle
+                  onClick={() => handleResponseAction(TradeResponse.REJECT)}
+                  style={{ width: "70%", height: "80%", cursor: "pointer" }}
+                />
+              </Flex>
+            )}
+        </Flex>
 
         <Flex
           direction="column"
           alignItems="center"
+          w="40%"
           justifyContent="center"
           gap="1em"
         >
@@ -155,9 +214,6 @@ export const TradeCard: FC<TradeCardProp> = ({
               justifyContent="center"
               borderRadius="300px"
               onClick={() => openPokemonDetail(pokemon2)}
-              width={{
-                xl: "6em",
-              }}
               cursor="pointer"
             >
               <Img
@@ -169,17 +225,14 @@ export const TradeCard: FC<TradeCardProp> = ({
               />
             </Flex>
           ) : (
-            <Img
-              src={unknownIcon.src}
-              alt={pokemon1.name}
-              width={{
-                xl: "5em",
-              }}
-              height="80%"
+            <GiSelect
               onClick={() => handleProposeClick()}
-              cursor="pointer"
-              zIndex="2"
-              filter="drop-shadow(0 0 10px rgba(0, 0, 0, 0.5))"
+              style={{
+                cursor: "pointer",
+                width: "40%",
+                height: "80%",
+                color: "gray",
+              }}
             />
           )}
         </Flex>
@@ -200,6 +253,18 @@ export const TradeCard: FC<TradeCardProp> = ({
             closeProposalModal={closeProposalModal}
             userPokemons={userPokemons}
             isOpen={openProposal}
+          />
+        )}
+        {openResponseModal && pokemon2 && responseProposal && (
+          <ConfirmationModal
+            onClose={setOpenResponseModal}
+            message={`Estás seguro que deseas ${
+              responseProposal === TradeResponse.CONFIRM
+                ? "confirmar"
+                : "rechazar"
+            } el intercambio de ${pokemon1.name} por ${pokemon2.name} ?`}
+            onResponse={handleResponseProposal}
+            tradeResponse={responseProposal}
           />
         )}
       </Flex>

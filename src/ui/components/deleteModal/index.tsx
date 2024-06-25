@@ -47,11 +47,12 @@ export const DeleteModal: FC<ProposalModalProps> = ({
     setActivePokemon(pokemon);
   };
 
+  //TODO: fix
   const deletePokemon = async () => {
     await deleteMutation.mutateAsync(activePokemon.id, {
-      onSuccess(data) {
+      async onSuccess(data) {
         closeDeleteModal();
-        refetch();
+        await refetch();
         successAlert("Pokémon eliminado con éxito");
         playSuccess();
       },

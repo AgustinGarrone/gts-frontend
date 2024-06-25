@@ -67,12 +67,12 @@ export const ProposalModal: FC<ProposalModalProps> = ({
           pokemonId: activePokemon.id,
         },
         {
-          onSuccess: (data) => {
+          onSuccess: async (data) => {
             closeProposalModal();
             successAlert("Intercambio ofrecido con éxito");
-            refetchPokemons();
-            refetchAvailableTrades();
-            refetchUserTrades();
+            await refetchPokemons();
+            await refetchAvailableTrades();
+            await refetchUserTrades();
           },
           onError: (error) => {
             console.error("Error al agregar pokemons:", error);
@@ -108,9 +108,9 @@ export const ProposalModal: FC<ProposalModalProps> = ({
               perPage: 1,
               type: "slide",
               perMove: "1",
-              gap: "3em",
-              width: "15em",
+              width: "16em",
               height: "43vh",
+              pagination: false,
             }}
             onMove={() => {
               playSound();
@@ -120,10 +120,7 @@ export const ProposalModal: FC<ProposalModalProps> = ({
             {userPokemons &&
               userPokemons.map((p) => {
                 return (
-                  <SplideSlide
-                    key={p.id}
-                    style={{ margin: "2em", height: "90%", padding: 0 }}
-                  >
+                  <SplideSlide key={p.id} style={{ height: "90%", padding: 0 }}>
                     <PokemonCard
                       name={p.name}
                       level={p.level}
