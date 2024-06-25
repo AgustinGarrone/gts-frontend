@@ -16,7 +16,7 @@ enum Routes {
 export const Navbar = () => {
   const { getUserInfo, logout } = useAuth();
   const router = useRouter();
-  const userInfo = getUserInfo() as DecodeTokenData | null;
+  const userInfo = getUserInfo() as DecodeTokenData;
   const currentPath = usePathname();
   const [activePath, setActivePath] = useState(Routes.PERFIL);
 
@@ -76,7 +76,7 @@ export const Navbar = () => {
           height={"150"}
           style={{ borderRadius: "30px", cursor: "pointer" }}
         />
-        <Text>{userInfo?.username}</Text>
+        {userInfo && <Text>{userInfo.username}</Text>}
       </Flex>
       <Flex
         direction="column"
