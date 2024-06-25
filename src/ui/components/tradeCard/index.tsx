@@ -57,7 +57,7 @@ export const TradeCard: FC<TradeCardProp> = ({
   const responseProposalMutation = useResponseProposal();
 
   const { data, isLoading, refetch, isRefetching } = useGetUserPokemons(
-    userInfo.id
+    userInfo?.id
   );
 
   const renderTradeState = () => {
