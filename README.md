@@ -44,6 +44,12 @@ ejecutar en modo dev
 # development
 $ npm run dev
 
+O en producción
+```bash
+# prod
+$ npm run build
+$ npm start
+
 
 Una vez iniciado el proyecto debe ir a http://localhost:4000/login y registrar un usuario para empezar
 
