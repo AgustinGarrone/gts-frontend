@@ -1,11 +1,15 @@
 "use client";
+import { checkLocalStorage } from "@/helpers/localStorage";
 import axios, { AxiosInstance } from "axios";
 
 export async function getAuthFromCache(): Promise<string | null> {
-  const token = localStorage.getItem("accessToken");
-  if (token) {
-    return token;
+  if (checkLocalStorage()) {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      return token;
+    }
   }
+
   return null;
 }
 

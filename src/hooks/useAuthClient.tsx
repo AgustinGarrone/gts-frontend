@@ -6,6 +6,7 @@ import {
 } from "../types/auth";
 import { useMutation } from "react-query";
 import AuthClient from "../clients/authClient";
+import { checkLocalStorage } from "@/helpers/localStorage";
 
 const useLoginMutation = () => {
   return useMutation<AuthResponses, Error, LoginMutationData>(
@@ -24,7 +25,9 @@ const useRegisterMutation = () => {
     },
     {
       onSuccess: (data) => {
-        localStorage.setItem("accessToken", data.user.token);
+        if (checkLocalStorage()) {
+          localStorage.setItem("accessToken", data.user.token);
+        }
       },
     }
   );

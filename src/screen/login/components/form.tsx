@@ -17,6 +17,7 @@ import { z } from "zod";
 import { loginSchema } from "./form.schemas";
 import { errorAlert } from "@/helpers/alerts";
 import { playSound } from "@/helpers/fx";
+import { checkLocalStorage } from "@/helpers/localStorage";
 
 type LoginFormProps = {
   changeMode: Dispatch<SetStateAction<FormMode>>;
@@ -38,11 +39,13 @@ export const LoginForm: FC<LoginFormProps> = ({ changeMode }) => {
 
       await loginMutation.mutateAsync(formData, {
         onSuccess: (data) => {
-          localStorage.setItem("accessToken", data.user.token);
-          localStorage.setItem(
-            "initialPokemons",
-            data.user.initialPokemons ? "true" : "false"
-          );
+          if (checkLocalStorage()) {
+            localStorage.setItem("accessToken", data.user.token);
+            localStorage.setItem(
+              "initialPokemons",
+              data.user.initialPokemons ? "true" : "false"
+            );
+          }
           if (!data.user.initialPokemons) {
             window.location.href = "/getInitial";
           } else if (data.user.initialPokemons) {

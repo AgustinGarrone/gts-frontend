@@ -11,6 +11,7 @@ import { emptyPokemons } from "@/types/constants";
 import { motion } from "framer-motion";
 import { useAuthClient } from "@/hooks/useAuthClient";
 import { useRouter } from "next/navigation";
+import { checkLocalStorage } from "@/helpers/localStorage";
 
 export const Selector = () => {
   const [pokemonsSelected, setPokemonsSelected] = useState<boolean>(false);
@@ -56,7 +57,9 @@ export const Selector = () => {
       const pokemonsIds = pokemonsAdded.map((pokemon) => pokemon.id);
       await addPokemonMutation.mutateAsync(pokemonsIds, {
         onSuccess: (data) => {
-          localStorage.setItem("initialPokemons" , "true" )
+          if (checkLocalStorage()) {
+            localStorage.setItem("initialPokemons" , "true" )
+          }
         },
         onError: (error) => {
           console.error("Error al agregar pokemons:", error);

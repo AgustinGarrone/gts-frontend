@@ -1,8 +1,9 @@
-"use client"
+"use client";
 import React, { ReactNode, createContext, useContext } from "react";
 import { JwtPayload, jwtDecode } from "jwt-decode";
 import { DecodeTokenData } from "@/types/auth";
 import { useRouter } from "next/navigation";
+import { checkLocalStorage } from "@/helpers/localStorage";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -19,55 +20,64 @@ const defaultAuthContext = {
 const AuthContext = createContext(defaultAuthContext);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-
-  const router = useRouter()
+  const router = useRouter();
 
   const isAuthenticated = () => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      const decodedToken = jwtDecode(token);
-      const currentTime = Date.now() / 1000;
-      return decodedToken.exp! > currentTime;
+    if (checkLocalStorage()) {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+        return decodedToken.exp! > currentTime;
+      }
     }
     return false;
   };
 
   const userHasInitialPokemons = () => {
-    const initialPokemons = localStorage.getItem("initialPokemons")
-    if (initialPokemons === "true") {
-      return true
+    if (checkLocalStorage()) {
+      const initialPokemons = localStorage.getItem("initialPokemons");
+      if (initialPokemons === "true") {
+        return true;
+      }
     }
-    return false
-  }
+    return false;
+  };
 
   const getToken = () => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      return token;
+    if (checkLocalStorage()) {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        return token;
+      }
     }
     return "";
   };
 
   const getUserInfo = (): DecodeTokenData | null => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      const decodedToken = jwtDecode(token) as DecodeTokenData;
-      const data: DecodeTokenData = {
-        username: decodedToken.username || "",
-        initialPokemons: decodedToken.initialPokemons,
-        id: decodedToken.id!,
-        iat: decodedToken.iat!,
-        exp: decodedToken.exp!,
-      };
-      return data;
+    if (checkLocalStorage()) {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        const decodedToken = jwtDecode(token) as DecodeTokenData;
+        const data: DecodeTokenData = {
+          username: decodedToken.username || "",
+          initialPokemons: decodedToken.initialPokemons,
+          id: decodedToken.id!,
+          iat: decodedToken.iat!,
+          exp: decodedToken.exp!,
+        };
+        return data;
+      }
     }
     return null;
   };
 
   const logout = () => {
-    localStorage.removeItem("initialPokemons");
-    localStorage.removeItem("accessToken");
-    router.push('/login');
+    if (checkLocalStorage()) {
+      localStorage.removeItem("initialPokemons");
+      localStorage.removeItem("accessToken");
+      router.push("/login");
+    }
   };
 
   const authContextValue = {

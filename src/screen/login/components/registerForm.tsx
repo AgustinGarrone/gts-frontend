@@ -17,6 +17,7 @@ import { registerSchema } from "./form.schemas";
 import { z } from "zod";
 import { errorAlert } from "@/helpers/alerts";
 import { playSound } from "@/helpers/fx";
+import { checkLocalStorage } from "@/helpers/localStorage";
 
 type RegisterFormProps = {
   changeMode: Dispatch<SetStateAction<FormMode>>;
@@ -40,11 +41,13 @@ export const RegisterForm: FC<RegisterFormProps> = ({ changeMode }) => {
 
       await registerMutation.mutateAsync(formData, {
         onSuccess: (data) => {
-          localStorage.setItem("accessToken", data.user.token);
-          localStorage.setItem(
-            "initialPokemons",
-            data.user.initialPokemons ? "true" : "false"
-          );
+          if (checkLocalStorage()) {
+            localStorage.setItem("accessToken", data.user.token);
+            localStorage.setItem(
+              "initialPokemons",
+              data.user.initialPokemons ? "true" : "false"
+            );
+          }
           window.location.href = "/getInitial";
         },
         onError: (error) => {
