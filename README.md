@@ -15,7 +15,7 @@ Sistema de intercambio entre usuarios
 
 ## Pre requisitos
 - Node.js y npm instalados en tu sistema
-
+ - Visualizar en lo posible en pantalla 1420x800 o mayor o redimensionar en el navegador ya que no está desarrollada para dispositivos menores
 ## Instalacion
 
 Ejecutamos el comando
