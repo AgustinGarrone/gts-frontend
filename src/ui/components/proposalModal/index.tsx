@@ -102,14 +102,22 @@ export const ProposalModal: FC<ProposalModalProps> = ({
               perPage: 1,
               type: "slide",
               perMove: "1",
-              width: "16em",
+              gap: "3em",
+              width: "13em",
               height: "43vh",
-              pagination: false,
+              breakpoints: {
+                600: {
+                  width: "13em",
+                },
+                1920: {
+                  width: "17em",
+                },
+              },
             }}
             onMove={() => {
               playSound();
             }}
-            onActive={(e : any) => handleActiveSlide(e)}
+            onActive={(e: any) => handleActiveSlide(e)}
           >
             {userPokemons &&
               userPokemons.map((p) => {

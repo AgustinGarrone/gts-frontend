@@ -72,7 +72,14 @@ export const CreateTradeModal: FC<CreateTradeModalProps> = ({
               type: "slide",
               perMove: "1",
               gap: "3em",
-              width: "15em",
+              breakpoints: {
+                600: {
+                  width: "13em"
+                },
+                1920: {
+                  width:"18em"
+                }
+              },
               height: "43vh",
             }}
             onMove={() => {
